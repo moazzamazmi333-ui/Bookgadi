@@ -3,177 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZM-LKO Express | Luxury Taxi Service</title>
+    <title>AZM-LKO Express Booking</title>
     <style>
-        :root { --primary: #002b5c; --secondary: #25D366; --accent: #ff9800; --bg: #f8fafd; }
+        :root { --primary: #002b5c; --secondary: #25D366; --accent: #ff9800; --bg: #f2f5f8; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: var(--bg); color: #333; padding-bottom: 80px; }
+        body { background: var(--bg); color: #333; padding-bottom: 100px; }
 
-        /* Modern Header */
-        .header { background: var(--primary); color: white; padding: 30px 20px 50px; text-align: center; border-radius: 0 0 30px 30px; }
-        .header h1 { font-size: 24px; letter-spacing: 1px; }
-        .header p { opacity: 0.9; font-size: 14px; margin-top: 5px; }
-
+        .header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
         .container { padding: 0 15px; max-width: 480px; margin: auto; }
 
-        /* Search Section - Floated */
-        .search-box { background: white; padding: 20px; border-radius: 20px; margin-top: -35px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        .input-group { margin-bottom: 15px; border-left: 3px solid var(--primary); padding-left: 15px; }
-        .input-group label { font-size: 11px; color: #888; font-weight: bold; text-transform: uppercase; }
-        .input-group input { border: none; width: 100%; outline: none; padding: 5px 0; font-size: 16px; color: #333; font-weight: 500; }
+        /* Search Section */
+        .search-box { background: white; padding: 20px; border-radius: 20px; margin-top: -30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { font-size: 11px; color: #888; font-weight: bold; display: block; margin-bottom: 5px; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 15px; }
 
         /* Service Cards */
-        .section-title { margin: 25px 0 15px; font-size: 17px; font-weight: 700; color: var(--primary); }
-        .card { background: white; border-radius: 16px; padding: 18px; margin-bottom: 15px; display: flex; align-items: center; border: 2px solid transparent; cursor: pointer; transition: 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .card.active { border-color: var(--accent); background: #fffcf5; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,152,0,0.15); }
-        .card-icon { font-size: 32px; margin-right: 18px; background: #f0f4f8; padding: 10px; border-radius: 12px; }
+        .section-title { margin: 20px 0 10px; font-size: 16px; font-weight: bold; color: var(--primary); }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; position: relative; }
+        .card.active { border-color: var(--accent); background: #fffcf5; }
+        .card-icon { font-size: 24px; margin-right: 15px; background: #f0f4f8; padding: 10px; border-radius: 12px; }
         .card-info { flex: 1; }
-        .card-price { font-weight: 800; color: var(--primary); font-size: 19px; }
-        .badge { position: absolute; top: 12px; right: 12px; background: #ff4757; color: white; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: bold; }
+        .card-price { font-weight: bold; color: var(--primary); font-size: 18px; }
 
-        /* Improved Car Layout for Seats */
-        #seatSection { display: none; background: #fff; padding: 25px; border-radius: 20px; margin-top: 15px; border: 1px dashed #ccc; animation: fadeIn 0.4s; }
-        .car-body { background: #f1f3f5; padding: 20px; border-radius: 30px 30px 15px 15px; max-width: 220px; margin: auto; border: 2px solid #ddd; }
+        /* Seat Selection Car Layout */
+        #seatSection { display: none; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; border: 1px solid #ddd; }
+        .car-layout { max-width: 220px; margin: auto; background: #f8f9fa; padding: 20px; border-radius: 40px 40px 15px 15px; border: 3px solid #ccc; position: relative; }
         .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .seat { width: 45px; height: 45px; background: white; border: 1.5px solid #d1d9e0; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; font-weight: bold; color: #666; transition: 0.2s; }
-        .seat.selected { background: var(--secondary); color: white; border-color: var(--secondary); box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
-        .seat.booked { background: #e9ecef; color: #adb5bd; border-color: #dee2e6; cursor: not-allowed; }
-        .driver { background: #343a40; color: white; border: none; }
+        .seat { width: 45px; height: 45px; background: white; border: 2px solid #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
+        .seat.selected { background: var(--secondary); color: white; border-color: #128C7E; }
+        .seat.booked { background: #e0e0e0; color: #aaa; cursor: not-allowed; border: none; }
+        .driver-seat { background: #333; color: white; border: none; cursor: default; }
 
-        /* Floating Call Button */
-        .call-btn { position: fixed; bottom: 90px; right: 20px; background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-decoration: none; font-size: 24px; z-index: 100; border: 2px solid white; }
+        /* Special Sections */
+        .hidden-box { display: none; background: #eef7ff; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px dashed var(--primary); }
 
-        /* Confirm Button */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
-        .btn-confirm { background: var(--primary); color: white; border: none; width: 100%; padding: 16px; border-radius: 14px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; }
+        .btn-confirm { background: var(--secondary); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
     </style>
 </head>
 <body>
 
-    <a href="tel:+919900000000" class="call-btn">📞</a>
-
     <div class="header">
         <h1>AZM ⇌ LKO EXPRESS</h1>
-        <p>Aaramdayak aur Surakshit Safar</p>
+        <p>Azamgarh Ki Bharosemand Taxi Service</p>
     </div>
 
     <div class="container">
         <div class="search-box">
             <div class="input-group">
-                <label>Kahan Se (Pickup)</label>
-                <input type="text" id="pickup" value="Azamgarh">
+                <label>KAHAN SE (PICKUP)</label>
+                <input type="text" id="pickup" placeholder="Enter City Name">
             </div>
             <div class="input-group">
-                <label>Kahan Tak (Drop)</label>
-                <input type="text" id="drop" value="Lucknow Charbagh">
+                <label>KAHAN TAK (DROP)</label>
+                <input type="text" id="drop" placeholder="Enter Destination">
             </div>
-            <div class="input-group" style="border:none; margin-bottom: 0;">
-                <label>Yatra Ki Tarikh</label>
-                <input type="date" id="date">
+            <div style="display: flex; gap: 10px;">
+                <div class="input-group" style="flex: 1.5;">
+                    <label>TARIKH (DATE)</label>
+                    <input type="date" id="travelDate">
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>SAMAY (TIME)</label>
+                    <input type="time" id="travelTime">
+                </div>
+            </div>
+
+            <div id="returnBox" class="hidden-box">
+                <label style="font-size: 11px; font-weight: bold;">WAPSI KI TARIKH (RETURN DATE)</label>
+                <input type="date" id="returnDate" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            </div>
+
+            <div id="airportBox" class="hidden-box">
+                <label style="font-size: 11px; font-weight: bold;">SAMAN (LUGGAGE) DETAILS</label>
+                <select id="luggage" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+                    <option value="Normal">Normal (15-20 KG)</option>
+                    <option value="Heavy">Bhari (40-50 KG)</option>
+                </select>
             </div>
         </div>
 
-        <div class="section-title">Service Chunein</div>
+        <div class="section-title">SERVICE CHUNEIN</div>
 
-        <div class="card active" onclick="selectService('Shared Seat (₹500)', this)">
+        <div class="card active" onclick="updateService('Shared Seat (₹500)', 500, 'shared', this)">
             <div class="card-icon">💺</div>
             <div class="card-info">
-                <div style="font-weight:bold">Shared Seat</div>
-                <div style="font-size:12px; color:#666">7-Seater Ertiga / Innova</div>
+                <strong>Shared Seat</strong><br><small>5 AM - 8 PM Service</small>
             </div>
             <div class="card-price">₹500</div>
         </div>
 
-        <div class="card" onclick="selectService('Full Cab (₹4000)', this)">
+        <div class="card" onclick="updateService('One Way Full (₹4000)', 4000, 'oneway', this)">
             <div class="card-icon">🚗</div>
             <div class="card-info">
-                <div style="font-weight:bold">Full Cab (One Side)</div>
-                <div style="font-size:12px; color:#666">Aapki Private Gaadi</div>
+                <strong>One Way</strong><br><small>Personal Full Cab</small>
             </div>
             <div class="card-price">₹4000</div>
         </div>
 
-        <div class="card" onclick="selectService('Airport Transfer (₹2500)', this)">
-            <span class="badge">Bhari Saman</span>
+        <div class="card" onclick="updateService('Round Trip (₹6500)', 6500, 'round', this)">
+            <div class="card-icon">🔄</div>
+            <div class="card-info">
+                <strong>Round Trip</strong><br><small>Aana aur Jaana</small>
+            </div>
+            <div class="card-price">₹6500</div>
+        </div>
+
+        <div class="card" onclick="updateService('Airport Transfer (₹2500)', 2500, 'airport', this)">
             <div class="card-icon">✈️</div>
             <div class="card-info">
-                <div style="font-weight:bold">Airport Transfer</div>
-                <div style="font-size:12px; color:#666">50KG Saman Allowed</div>
+                <strong>Airport Transfer</strong><br><small>Special Luggage Help</small>
             </div>
             <div class="card-price">₹2500</div>
         </div>
 
         <div id="seatSection">
-            <h4 style="text-align:center; margin-bottom:15px; font-size: 14px; color: #555;">Gaadi Mein Seat Chunein</h4>
-            <div class="car-body">
+            <h4 style="text-align:center; margin-bottom:15px; font-size:14px;">PASAND KI SEAT CHUNEIN</h4>
+            <div class="car-layout">
                 <div class="car-grid">
-                    <div class="seat driver">Drvr</div>
+                    <div class="seat" onclick="toggleSeat('Front-Left', this)">S1</div>
                     <div></div>
-                    <div class="seat" id="S1" onclick="toggleSeat(this)">Front</div>
-                    
-                    <div class="seat booked">M1</div>
-                    <div class="seat" id="S2" onclick="toggleSeat(this)">M2</div>
-                    <div class="seat" id="S3" onclick="toggleSeat(this)">M3</div>
-                    
+                    <div class="seat driver-seat">Driver</div> <div class="seat" onclick="toggleSeat('Mid-Left', this)">M1</div>
+                    <div class="seat" onclick="toggleSeat('Mid-Center', this)">M2</div>
+                    <div class="seat" onclick="toggleSeat('Mid-Right', this)">M3</div>
+
                     <div></div>
-                    <div class="seat" id="S4" onclick="toggleSeat(this)">B1</div>
-                    <div class="seat" id="S5" onclick="toggleSeat(this)">B2</div>
+                    <div class="seat" onclick="toggleSeat('Back-Left', this)">B1</div>
+                    <div class="seat" onclick="toggleSeat('Back-Right', this)">B2</div>
                 </div>
             </div>
+            <p style="font-size: 11px; text-align: center; margin-top: 10px; color: #666;">*S1: Driver ke bagal wali seat</p>
         </div>
     </div>
 
     <div class="footer">
-        <button class="btn-confirm" onclick="finalBook()">
-            WHATSAPP PAR BOOK KAREIN
-        </button>
+        <button class="btn-confirm" onclick="confirmBooking()">WHATSAPP PAR BOOK KAREIN</button>
     </div>
 
     <script>
-        let currentService = "Shared Seat (₹500)";
+        let selectedService = "Shared Seat (₹500)";
         let selectedSeats = [];
+        let serviceType = 'shared';
 
-        function selectService(type, element) {
-            currentService = type;
+        // Jab user service badle
+        function updateService(name, price, type, el) {
+            selectedService = name;
+            serviceType = type;
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
+            el.classList.add('active');
 
-            const seatSec = document.getElementById('seatSection');
-            seatSec.style.display = (type.includes('Shared')) ? 'block' : 'none';
+            // Toggle Sections
+            document.getElementById('seatSection').style.display = (type === 'shared') ? 'block' : 'none';
+            document.getElementById('returnBox').style.display = (type === 'round') ? 'block' : 'none';
+            document.getElementById('airportBox').style.display = (type === 'airport') ? 'block' : 'none';
         }
 
-        function toggleSeat(s) {
-            if(!s.classList.contains('booked')) {
-                s.classList.toggle('selected');
-                const seatId = s.innerText;
-                if(s.classList.contains('selected')) {
-                    selectedSeats.push(seatId);
-                } else {
-                    selectedSeats = selectedSeats.filter(item => item !== seatId);
-                }
+        // Seat selection logic
+        function toggleSeat(seatID, el) {
+            if (el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                selectedSeats = selectedSeats.filter(s => s !== seatID);
+            } else {
+                el.classList.add('selected');
+                selectedSeats.push(seatID);
             }
         }
 
-        function finalBook() {
+        function confirmBooking() {
             const pickup = document.getElementById('pickup').value;
             const drop = document.getElementById('drop').value;
-            const date = document.getElementById('date').value;
-            const myNumber = "919900000000"; // YAHAN APNA NO DALO
+            const date = document.getElementById('travelDate').value;
+            const time = document.getElementById('travelTime').value;
+            const retDate = document.getElementById('returnDate').value;
+            const lug = document.getElementById('luggage').value;
+            const phone = "919900000000"; // APNA NO YAHA DALO
 
-            if(!date) { alert("Pehle tarikh chunein!"); return; }
+            if(!pickup || !drop || !date || !time) {
+                alert("Kripya saari details bharein!");
+                return;
+            }
 
-            let seatInfo = selectedSeats.length > 0 ? `%0A*Seats:* ${selectedSeats.join(', ')}` : "";
+            // Time Filter: 5 AM (5) to 8 PM (20)
+            const hour = parseInt(time.split(':')[0]);
+            if(serviceType === 'shared' && (hour < 5 || hour >= 20)) {
+                alert("Shared seat sirf subah 5 AM se raat 8 PM tak available hai.");
+                return;
+            }
+
+            if(serviceType === 'shared' && selectedSeats.length === 0) {
+                alert("Kripya gaadi mein seat chunein!");
+                return;
+            }
+
+            // WhatsApp Message Builder
+            let message = `*NAYI TAXI BOOKING*%0A-----------------------%0A`;
+            message += `*Route:* ${pickup} to ${drop}%0A`;
+            message += `*Date:* ${date}%0A*Time:* ${time}%0A`;
+            message += `*Service:* ${selectedService}%0A`;
             
-            let message = `*NAYI BOOKING REQUEST*%0A-----------------------%0A*Route:* ${pickup} se ${drop}%0A*Date:* ${date}%0A*Service:* ${currentService}${seatInfo}%0A-----------------------%0AKripya details confirm karein.`;
+            if(serviceType === 'shared') message += `*Seats:* ${selectedSeats.join(', ')}%0A`;
+            if(serviceType === 'round') message += `*Wapsi Date:* ${retDate}%0A`;
+            if(serviceType === 'airport') message += `*Luggage:* ${lug}%0A`;
             
-            window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+            message += `-----------------------%0AKripya confirmation dein.`;
+
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
-        
-        // Default Seat Selection show
-        selectService('Shared Seat (₹500)', document.querySelector('.card'));
     </script>
-
 </body>
-  </html>
+</html>
