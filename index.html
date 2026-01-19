@@ -1,215 +1,147 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZM-LKO Express Booking</title>
+    <title>BookGadi | Best Outstation Taxi & Cab Service in India</title>
+    <meta name="description" content="Book affordable outstation cabs, one-way taxis, and airport transfers. Best rates guaranteed with professional drivers.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #002b5c; --secondary: #25D366; --accent: #ff9800; --bg: #f2f5f8; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: var(--bg); color: #333; padding-bottom: 100px; }
-
-        .header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
-        .container { padding: 0 15px; max-width: 480px; margin: auto; }
-
-        /* Search Section */
-        .search-box { background: white; padding: 20px; border-radius: 20px; margin-top: -30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { font-size: 11px; color: #888; font-weight: bold; display: block; margin-bottom: 5px; }
-        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 15px; }
-
-        /* Service Cards */
-        .section-title { margin: 20px 0 10px; font-size: 16px; font-weight: bold; color: var(--primary); }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; position: relative; }
-        .card.active { border-color: var(--accent); background: #fffcf5; }
-        .card-icon { font-size: 24px; margin-right: 15px; background: #f0f4f8; padding: 10px; border-radius: 12px; }
-        .card-info { flex: 1; }
-        .card-price { font-weight: bold; color: var(--primary); font-size: 18px; }
-
-        /* Seat Selection Car Layout */
-        #seatSection { display: none; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; border: 1px solid #ddd; }
-        .car-layout { max-width: 220px; margin: auto; background: #f8f9fa; padding: 20px; border-radius: 40px 40px 15px 15px; border: 3px solid #ccc; position: relative; }
-        .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .seat { width: 45px; height: 45px; background: white; border: 2px solid #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
-        .seat.selected { background: var(--secondary); color: white; border-color: #128C7E; }
-        .seat.booked { background: #e0e0e0; color: #aaa; cursor: not-allowed; border: none; }
-        .driver-seat { background: #333; color: white; border: none; cursor: default; }
-
-        /* Special Sections */
-        .hidden-box { display: none; background: #eef7ff; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px dashed var(--primary); }
-
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; }
-        .btn-confirm { background: var(--secondary); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 font-sans">
 
-    <div class="header">
-        <h1>AZM ⇌ LKO EXPRESS</h1>
-        <p>Azamgarh Ki Bharosemand Taxi Service</p>
-    </div>
-
-    <div class="container">
-        <div class="search-box">
-            <div class="input-group">
-                <label>KAHAN SE (PICKUP)</label>
-                <input type="text" id="pickup" placeholder="Enter City Name">
-            </div>
-            <div class="input-group">
-                <label>KAHAN TAK (DROP)</label>
-                <input type="text" id="drop" placeholder="Enter Destination">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <div class="input-group" style="flex: 1.5;">
-                    <label>TARIKH (DATE)</label>
-                    <input type="date" id="travelDate">
-                </div>
-                <div class="input-group" style="flex: 1;">
-                    <label>SAMAY (TIME)</label>
-                    <input type="time" id="travelTime">
-                </div>
-            </div>
-
-            <div id="returnBox" class="hidden-box">
-                <label style="font-size: 11px; font-weight: bold;">WAPSI KI TARIKH (RETURN DATE)</label>
-                <input type="date" id="returnDate" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
-            </div>
-
-            <div id="airportBox" class="hidden-box">
-                <label style="font-size: 11px; font-weight: bold;">SAMAN (LUGGAGE) DETAILS</label>
-                <select id="luggage" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
-                    <option value="Normal">Normal (15-20 KG)</option>
-                    <option value="Heavy">Bhari (40-50 KG)</option>
-                </select>
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-yellow-500">Book<span class="text-gray-800">Gadi</span></div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#" class="hover:text-yellow-500">Home</a>
+                <a href="#services" class="hover:text-yellow-500">Services</a>
+                <a href="#pricing" class="hover:text-yellow-500">Pricing</a>
+                <a href="tel:+919876543210" class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">Call Now</a>
             </div>
         </div>
+    </nav>
 
-        <div class="section-title">SERVICE CHUNEIN</div>
-
-        <div class="card active" onclick="updateService('Shared Seat (₹500)', 500, 'shared', this)">
-            <div class="card-icon">💺</div>
-            <div class="card-info">
-                <strong>Shared Seat</strong><br><small>5 AM - 8 PM Service</small>
-            </div>
-            <div class="card-price">₹500</div>
-        </div>
-
-        <div class="card" onclick="updateService('One Way Full (₹4000)', 4000, 'oneway', this)">
-            <div class="card-icon">🚗</div>
-            <div class="card-info">
-                <strong>One Way</strong><br><small>Personal Full Cab</small>
-            </div>
-            <div class="card-price">₹4000</div>
-        </div>
-
-        <div class="card" onclick="updateService('Round Trip (₹6500)', 6500, 'round', this)">
-            <div class="card-icon">🔄</div>
-            <div class="card-info">
-                <strong>Round Trip</strong><br><small>Aana aur Jaana</small>
-            </div>
-            <div class="card-price">₹6500</div>
-        </div>
-
-        <div class="card" onclick="updateService('Airport Transfer (₹2500)', 2500, 'airport', this)">
-            <div class="card-icon">✈️</div>
-            <div class="card-info">
-                <strong>Airport Transfer</strong><br><small>Special Luggage Help</small>
-            </div>
-            <div class="card-price">₹2500</div>
-        </div>
-
-        <div id="seatSection">
-            <h4 style="text-align:center; margin-bottom:15px; font-size:14px;">PASAND KI SEAT CHUNEIN</h4>
-            <div class="car-layout">
-                <div class="car-grid">
-                    <div class="seat" onclick="toggleSeat('Front-Left', this)">S1</div>
-                    <div></div>
-                    <div class="seat driver-seat">Driver</div> <div class="seat" onclick="toggleSeat('Mid-Left', this)">M1</div>
-                    <div class="seat" onclick="toggleSeat('Mid-Center', this)">M2</div>
-                    <div class="seat" onclick="toggleSeat('Mid-Right', this)">M3</div>
-
-                    <div></div>
-                    <div class="seat" onclick="toggleSeat('Back-Left', this)">B1</div>
-                    <div class="seat" onclick="toggleSeat('Back-Right', this)">B2</div>
-                </div>
-            </div>
-            <p style="font-size: 11px; text-align: center; margin-top: 10px; color: #666;">*S1: Driver ke bagal wali seat</p>
-        </div>
-    </div>
-
-    <div class="footer">
-        <button class="btn-confirm" onclick="confirmBooking()">WHATSAPP PAR BOOK KAREIN</button>
-    </div>
-
-    <script>
-        let selectedService = "Shared Seat (₹500)";
-        let selectedSeats = [];
-        let serviceType = 'shared';
-
-        // Jab user service badle
-        function updateService(name, price, type, el) {
-            selectedService = name;
-            serviceType = type;
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-
-            // Toggle Sections
-            document.getElementById('seatSection').style.display = (type === 'shared') ? 'block' : 'none';
-            document.getElementById('returnBox').style.display = (type === 'round') ? 'block' : 'none';
-            document.getElementById('airportBox').style.display = (type === 'airport') ? 'block' : 'none';
-        }
-
-        // Seat selection logic
-        function toggleSeat(seatID, el) {
-            if (el.classList.contains('selected')) {
-                el.classList.remove('selected');
-                selectedSeats = selectedSeats.filter(s => s !== seatID);
-            } else {
-                el.classList.add('selected');
-                selectedSeats.push(seatID);
-            }
-        }
-
-        function confirmBooking() {
-            const pickup = document.getElementById('pickup').value;
-            const drop = document.getElementById('drop').value;
-            const date = document.getElementById('travelDate').value;
-            const time = document.getElementById('travelTime').value;
-            const retDate = document.getElementById('returnDate').value;
-            const lug = document.getElementById('luggage').value;
-            const phone = "919651191446"; // APNA NO YAHA DALO
-
-            if(!pickup || !drop || !date || !time) {
-                alert("Kripya saari details bharein!");
-                return;
-            }
-
-            // Time Filter: 5 AM (5) to 8 PM (20)
-            const hour = parseInt(time.split(':')[0]);
-            if(serviceType === 'shared' && (hour < 5 || hour >= 20)) {
-                alert("Shared seat sirf subah 5 AM se raat 8 PM tak available hai.");
-                return;
-            }
-
-            if(serviceType === 'shared' && selectedSeats.length === 0) {
-                alert("Kripya gaadi mein seat chunein!");
-                return;
-            }
-
-            // WhatsApp Message Builder
-            let message = `*NAYI TAXI BOOKING*%0A-----------------------%0A`;
-            message += `*Route:* ${pickup} to ${drop}%0A`;
-            message += `*Date:* ${date}%0A*Time:* ${time}%0A`;
-            message += `*Service:* ${selectedService}%0A`;
+    <section class="hero-bg h-[600px] flex items-center justify-center text-white text-center px-4">
+        <div class="max-w-4xl w-full">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Reliable Outstation Taxi Service</h1>
+            <p class="text-xl mb-8">Lowest Fares for One-Way & Round Trips. Professional Drivers.</p>
             
-            if(serviceType === 'shared') message += `*Seats:* ${selectedSeats.join(', ')}%0A`;
-            if(serviceType === 'round') message += `*Wapsi Date:* ${retDate}%0A`;
-            if(serviceType === 'airport') message += `*Luggage:* ${lug}%0A`;
-            
-            message += `-----------------------%0AKripya confirmation dein.`;
+            <div class="bg-white p-6 rounded-lg shadow-2xl text-gray-800 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-left">Pickup City</label>
+                    <input type="text" placeholder="Enter City" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-left">Drop City</label>
+                    <input type="text" placeholder="Enter City" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-left">Pickup Date</label>
+                    <input type="date" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
+                </div>
+                <div class="flex items-end">
+                    <button class="w-full bg-yellow-500 text-white font-bold py-3 rounded hover:bg-yellow-600 transition uppercase">Search Fare</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-        }
-    </script>
+    <section id="services" class="py-20 container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 uppercase tracking-wide">Our Premium Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
+                <i class="fas fa-road text-4xl text-yellow-500 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Outstation Cabs</h3>
+                <p class="text-gray-600">Inter-city travel with round-trip or one-way options at best rates.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
+                <i class="fas fa-plane-departure text-4xl text-yellow-500 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Airport Transfers</h3>
+                <p class="text-gray-600">Timely pickup and drop to all major airports across the country.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
+                <i class="fas fa-city text-4xl text-yellow-500 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Local Rentals</h3>
+                <p class="text-gray-600">Half-day or full-day taxi service for city tours and shopping.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="bg-gray-100 py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Transparent Pricing</h2>
+            <div class="overflow-x-auto bg-white rounded-lg shadow">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-yellow-500 text-white">
+                        <tr>
+                            <th class="p-4">Car Type</th>
+                            <th class="p-4">Capacity</th>
+                            <th class="p-4">Price Per KM</th>
+                            <th class="p-4">Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <tr class="border-b">
+                            <td class="p-4 font-semibold">Economy (Hatchback)</td>
+                            <td class="p-4">4+1 Seater</td>
+                            <td class="p-4">₹10/km</td>
+                            <td class="p-4">Short budget trips</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-4 font-semibold">Sedan (Dzire/Etios)</td>
+                            <td class="p-4">4+1 Seater</td>
+                            <td class="p-4">₹12/km</td>
+                            <td class="p-4">Family comfort travel</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-semibold">SUV (Innova/Ertiga)</td>
+                            <td class="p-4">6+1 Seater</td>
+                            <td class="p-4">₹16/km</td>
+                            <td class="p-4">Group/Long journeys</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-xl font-bold mb-4 text-yellow-500">BookMyGadi</h4>
+                <p class="text-gray-400">Your trusted travel partner for safe and affordable taxi rides across the nation. Available 24/7.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Quick Links</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="#" class="hover:text-yellow-500">About Us</a></li>
+                    <li><a href="#" class="hover:text-yellow-500">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-yellow-500">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Contact Us</h4>
+                <p class="text-gray-400"><i class="fas fa-phone mr-2"></i> +91 96511 91446</p>
+                <p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> suppory@bookgadi.com</p>
+                <div class="flex space-x-4 mt-4 text-xl">
+                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-10 border-t border-gray-800 pt-6 text-gray-500">
+            &copy; 2026 BookGadi. All Rights Reserved.
+        </div>
+    </footer>
+
 </body>
 </html>
