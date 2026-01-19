@@ -192,19 +192,7 @@
       window.location.href = "https://wa.me/91" + num + "?text=" + msg;
     }
 
-    /* AUTO POPUP ONLY ONCE */
-    const popup = document.getElementById("autoPopup");
-
-    function closePopup() {
-      popup.style.display = "none";
-      localStorage.setItem("bookgadi_popup_seen", "yes");
-    }
-
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("bookgadi_popup_seen") !== "yes") {
-        popup.style.display = "flex";
-      }
-    });
+    
   </script>
 </body>
 </html>
