@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BookGadi Selection App</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#002b5c">
-
   <style>
     :root { --primary:#002b5c; --secondary:#25D366; --accent:#ff9800; --bg:#f2f5f8; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
@@ -54,23 +50,11 @@
       display:flex; justify-content:space-between; align-items:center; gap:10px;
     }
     #autoPopup h3{ margin:0; font-size:18px; color:#111; }
-    #autoPopup p{ margin:12px 0 10px; color:#334155; font-size:14px; line-height:1.5; }
+    #autoPopup p{ margin:12px 0 14px; color:#334155; font-size:14px; line-height:1.5; }
     #autoPopup .closeBtn{
       border:none;background:#f3f4f6;color:#111;
       width:34px;height:34px;border-radius:10px;
       cursor:pointer;font-size:18px;font-weight:800;
-    }
-    #autoPopup .installBtn{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:12px;
-      background:var(--primary);
-      color:#fff;
-      font-weight:800;
-      cursor:pointer;
-      margin:10px 0 10px;
-      display:none;
     }
     #autoPopup .okBtn{
       width:100%;
@@ -81,12 +65,6 @@
       color:#fff;
       font-weight:800;
       cursor:pointer;
-    }
-    #installInfo{
-      margin-top:6px;
-      color:#334155;
-      font-size:13px;
-      line-height:1.4;
     }
   </style>
 </head>
@@ -155,22 +133,19 @@
     <button class="btn" onclick="send()">SEND TO WHATSAPP</button>
   </div>
 
-  <!-- AUTO POPUP -->
+  <!-- SIMPLE AUTO POPUP (NO INSTALLER) -->
   <div id="autoPopup">
     <div class="popupCard">
       <div class="topbar">
-        <h3>Install BookGadi App</h3>
+        <h3>Notice</h3>
         <button class="closeBtn" onclick="closePopup()">×</button>
       </div>
 
       <p>
-        📌 Aap is app ko apne mobile me install kar sakte hain.<br>
-        Install ke baad fast open hogi aur browser bar nahi aayega.
+        ✅ Welcome to BookGadi Manual Booking App.<br>
+        Please enter details carefully.
       </p>
 
-      <div id="installInfo">🔄 Checking install option...</div>
-
-      <button id="installBtn" class="installBtn">Install App</button>
       <button class="okBtn" onclick="closePopup()">OK</button>
     </div>
   </div>
@@ -217,13 +192,8 @@
       window.location.href = "https://wa.me/91" + num + "?text=" + msg;
     }
 
-    /* ===========================
-       PWA INSTALL + AUTO POPUP
-    =========================== */
-
+    /* AUTO POPUP ONLY ONCE */
     const popup = document.getElementById("autoPopup");
-    const installBtn = document.getElementById("installBtn");
-    const installInfo = document.getElementById("installInfo");
 
     function closePopup() {
       popup.style.display = "none";
@@ -234,53 +204,6 @@
       if (localStorage.getItem("bookgadi_popup_seen") !== "yes") {
         popup.style.display = "flex";
       }
-    });
-
-    // Register SW
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js")
-        .then(reg => console.log("SW Ready:", reg.scope))
-        .catch(err => console.log("SW Error:", err));
-    }
-
-    // Install prompt
-    let deferredPrompt = null;
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-
-      installBtn.style.display = "block";
-      installInfo.innerHTML = "✅ Install option available.";
-    });
-
-    installBtn.addEventListener("click", async () => {
-      if (!deferredPrompt) {
-        installInfo.innerHTML = "❌ Install option not available.<br>Chrome menu (⋮) → <b>Add to Home Screen</b> use karein.";
-        return;
-      }
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-
-      deferredPrompt = null;
-      installBtn.style.display = "none";
-      closePopup();
-    });
-
-    // If event not fired within 2 sec => show manual steps
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        if (!deferredPrompt) {
-          installBtn.style.display = "none";
-          installInfo.innerHTML = "📌 Install button browser ne allow nahi kiya.<br>Chrome menu (⋮) → <b>Add to Home screen</b> karein.";
-        }
-      }, 2000);
-    });
-
-    window.addEventListener("appinstalled", () => {
-      installBtn.style.display = "none";
-      installInfo.innerHTML = "✅ Installed Successfully!";
-      closePopup();
     });
   </script>
 </body>
