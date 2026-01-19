@@ -1,44 +1,37 @@
-// Service Worker Name and Version
 const CACHE_NAME = 'bookgadi-note-v1';
-
-// Files to Cache (Offline support ke liye)
-const urlsToCache = [
+const assets = [
   '/note/',
   '/note/index.html',
-  '/note/manifest.json'
+  '/note/manifest.json',
+  'https://static.wixstatic.com/media/843689_5136ef824c644479aa524cfe04cf1cf7~mv2.jpg'
 ];
 
-// Install Event: Files ko cache mein save karta hai
+// Service worker install hote hi files ko cache mein save karta hai
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Caching shell assets');
+      return cache.addAll(assets);
+    })
   );
-  self.skipWaiting();
 });
 
-// Activate Event: Purane cache ko delete karta hai
+// Purane cache ko delete karne ke liye
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       );
     })
   );
 });
 
-// Fetch Event: Isse "Install Popup" trigger hota hai
+// Offline hone par bhi app ko load karne ke liye
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
+    caches.match(event.request).then((cacheRes) => {
+      return cacheRes || fetch(event.request);
     })
   );
 });
