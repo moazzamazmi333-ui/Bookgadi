@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <title>BookGadi | Tracker PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <style>
   :root { --primary:#2563eb; --danger:#ef4444; --dark:#1e293b; }
   html,body{margin:0;padding:0;height:100%;font-family:sans-serif;background:#fff;display:flex;flex-direction:column;overflow:hidden;}
@@ -28,9 +29,46 @@
   #btnVehicle{background:var(--primary);color:#fff;}
   #photoModal{display:none;position:fixed;z-index:1000;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);align-items:center;justify-content:center;backdrop-filter:blur(5px);}
   #zoomedImg{max-width:90%;max-height:70%;border-radius:15px;border:3px solid #fff;box-shadow:0 0 30px rgba(0,0,0,.5);}
+
+  /* ===== ID LOCK OVERLAY ===== */
+  #blockOverlay{
+    position:fixed;
+    inset:0;
+    z-index:2147483647;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:#fff;
+  }
+  #accessBox{ text-align:center; }
+  .loader{
+    width:50px;
+    height:50px;
+    border:5px solid rgba(255,255,255,0.3);
+    border-top:5px solid #fff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 20px;
+  }
+  @keyframes spin{
+    0%{transform:rotate(0deg)}
+    100%{transform:rotate(360deg)}
+  }
 </style>
 </head>
+
 <body>
+
+<!-- ✅ ID LOCK SCREEN -->
+<div id="blockOverlay">
+  <div id="accessBox">
+    <div class="loader"></div>
+    <h2>Checking access…</h2>
+    <p>Please wait</p>
+  </div>
+</div>
 
 <div id="photoModal" onclick="closeModal()">
   <img id="zoomedImg" src="" alt="">
@@ -71,23 +109,71 @@
 </div>
 
 <script>
+/* ===========================
+   ✅ ID LOCK SYSTEM
+=========================== */
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=1569920623&single=true&output=csv";
+
+const params = new URLSearchParams(window.location.search);
+const pageId = params.get("id");
+
+function showError(title, msg){
+  const loader = document.querySelector(".loader");
+  if(loader) loader.style.display="none";
+  document.querySelector("#accessBox h2").innerText = title;
+  document.querySelector("#accessBox p").innerText = msg;
+}
+
+async function checkAccess(){
+  if(!pageId){
+    showError("Access Denied", "ID is required to open this page.");
+    return;
+  }
+  try{
+    const r = await fetch(CSV_URL + "&t=" + Date.now());
+    const csv = await r.text();
+    const rows = csv.split(/\r?\n/).map(r => r.split(","));
+
+    let valid = false;
+    rows.forEach(row=>{
+      const sheetId = (row[1] || "").trim(); // Column B = ID
+      if(sheetId === pageId) valid = true;
+    });
+
+    if(valid){
+      document.getElementById("blockOverlay").remove();
+      start(); // ✅ tracker start ONLY after valid ID
+      setTimeout(()=> window.dispatchEvent(new Event("resize")), 500);
+    }else{
+      showError("Invalid ID", "Access not allowed.");
+    }
+  }catch(e){
+    showError("Error", "Could not load ID list. Try again later.");
+  }
+}
+
+checkAccess();
+</script>
+
+<script>
+/* ===========================
+   ✅ TRACKER CODE START
+=========================== */
 const API_KEY   = "AIzaSyB8fFUPeGfUy8Wwh-mQ_d3fbGZzKBy7VwM";
 const GPS_API   = "https://gps51-proxy.moazzamazmi333.workers.dev/";
 const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=587843648&single=true&output=csv";
 const CAR_ICON_URL = "https://static.wixstatic.com/media/843689_497878e241e348adbd167a8cc7462f1b~mv2.png";
 
-// Stability Settings
-const HEADING_FREEZE_SPEED = 5; 
+const HEADING_FREEZE_SPEED = 5;
 let lastStableHeading = 0;
 
 let map, userMarker, carMarker, trafficLayer, directionsService, directionsRenderer, geocoder;
-let clat, clng, ulat, ulng, DEVICE_ID, followVehicle=true, prevPos=null;
+let clat, clng, ulat, ulng, DEVICE_ID, followVehicle=true;
 
 function openModal(src){ if(!src) return; document.getElementById("zoomedImg").src=src; document.getElementById("photoModal").style.display="flex"; }
 function closeModal(){ document.getElementById("photoModal").style.display="none"; }
 function setStatus(msg){ document.getElementById("driverAddress").innerText="📍 "+msg; }
-
-function normalizeAngle(a){ a=((a+180)%360)-180; return a; }
 
 function loadGoogleMaps(){
   return new Promise((resolve,reject)=>{
@@ -104,10 +190,22 @@ function initMap(){
   map=new google.maps.Map(document.getElementById("map"),{
     center:{lat:26.85,lng:80.95},
     zoom:15,
+
+    // ✅ WHITE MAP THEME BACK
     styles:[
       { elementType:"geometry", stylers:[{color:"#ffffff"}] },
       { featureType:"road", elementType:"geometry", stylers:[{color:"#f1f5f9"}] },
-      { featureType:"water", elementType:"geometry", stylers:[{color:"#dbeafe"}] }
+      { featureType:"road", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
+      { featureType:"road", elementType:"labels.text.stroke", stylers:[{color:"#ffffff"}] },
+
+      { featureType:"poi", elementType:"geometry", stylers:[{color:"#ffffff"}] },
+      { featureType:"poi.park", elementType:"geometry", stylers:[{color:"#e2e8f0"}] },
+
+      { featureType:"water", elementType:"geometry", stylers:[{color:"#dbeafe"}] },
+      { featureType:"water", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
+
+      { featureType:"transit", elementType:"geometry", stylers:[{color:"#ffffff"}] },
+      { featureType:"administrative", elementType:"geometry.stroke", stylers:[{color:"#e2e8f0"}] }
     ]
   });
 
@@ -119,14 +217,10 @@ function initMap(){
     polylineOptions:{ strokeColor:"#2563eb", strokeWeight:6 }
   });
 
-  carMarker = new google.maps.Marker({
+  carMarker=new google.maps.Marker({
     map,
     position:{lat:26.85,lng:80.95},
-    icon:{
-      url:CAR_ICON_URL,
-      scaledSize:new google.maps.Size(46,46),
-      anchor:new google.maps.Point(23,23)
-    },
+    icon:{ url:CAR_ICON_URL, scaledSize:new google.maps.Size(46,46), anchor:new google.maps.Point(23,23) },
     optimized:false,
     zIndex:9999
   });
@@ -134,6 +228,7 @@ function initMap(){
   loadSheet();
   startUserLocation();
 }
+
 
 function startUserLocation(){
   if(navigator.geolocation){
@@ -167,28 +262,25 @@ async function loadVehicle(){
     const speed=Math.floor((Number(v.speed)||0)/1000);
     const carPos=new google.maps.LatLng(clat,clng);
 
-    // Direction Logic
-    let rawHeading = Number(v.course) || 0;
-    if(speed >= HEADING_FREEZE_SPEED) {
-        lastStableHeading = rawHeading;
-    }
+    let rawHeading=Number(v.course)||0;
+    if(speed>=HEADING_FREEZE_SPEED) lastStableHeading=rawHeading;
 
     carMarker.setPosition(carPos);
-    
-    // CSS Rotate (Smooth & No Spining)
-    const markerImg = document.querySelector('img[src*="843689_497878e241e348adbd167a8cc7462f1b"]');
-    if(markerImg) {
-        markerImg.style.transition = "transform 0.6s linear";
-        markerImg.style.transform = `rotate(${lastStableHeading}deg)`;
+
+    const markerImg=document.querySelector('img[src*="843689_497878e241e348adbd167a8cc7462f1b"]');
+    if(markerImg){
+      markerImg.style.transition="transform 0.6s linear";
+      markerImg.style.transform=`rotate(${lastStableHeading}deg)`;
     }
 
     if(followVehicle) map.panTo(carPos);
-    document.getElementById("speed").innerText = speed + " km/h";
-    document.getElementById("ignition").innerText = speed > 0 ? "MOVING" : "IDLE";
+    document.getElementById("speed").innerText=speed+" km/h";
+    document.getElementById("ignition").innerText=speed>0?"MOVING":"IDLE";
 
     geocoder.geocode({ location: carPos }, (res, stat)=>{
       if(stat==="OK" && res[0]) setStatus(res[0].formatted_address);
     });
+
     calculateRouteUserToCar();
   }catch(e){}
 }
@@ -196,7 +288,9 @@ async function loadVehicle(){
 function calculateRouteUserToCar(){
   if(!ulat || !clat) return;
   directionsService.route({
-    origin:{lat:ulat,lng:ulng}, destination:{lat:clat,lng:clng}, travelMode:"DRIVING"
+    origin:{lat:ulat,lng:ulng},
+    destination:{lat:clat,lng:clng},
+    travelMode:"DRIVING"
   }, (result,status)=>{
     if(status==="OK"){
       directionsRenderer.setDirections(result);
@@ -229,7 +323,7 @@ document.getElementById("btnMe").onclick=()=>{ followVehicle=false; map.panTo({l
 async function start(){
   try{ await loadGoogleMaps(); initMap(); } catch(e){}
 }
-start();
 </script>
+
 </body>
 </html>
