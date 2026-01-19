@@ -54,7 +54,7 @@
       display:flex; justify-content:space-between; align-items:center; gap:10px;
     }
     #autoPopup h3{ margin:0; font-size:18px; color:#111; }
-    #autoPopup p{ margin:12px 0 14px; color:#334155; font-size:14px; line-height:1.5; }
+    #autoPopup p{ margin:12px 0 10px; color:#334155; font-size:14px; line-height:1.5; }
     #autoPopup .closeBtn{
       border:none;background:#f3f4f6;color:#111;
       width:34px;height:34px;border-radius:10px;
@@ -69,7 +69,7 @@
       color:#fff;
       font-weight:800;
       cursor:pointer;
-      margin-bottom:10px;
+      margin:10px 0 10px;
       display:none;
     }
     #autoPopup .okBtn{
@@ -81,6 +81,12 @@
       color:#fff;
       font-weight:800;
       cursor:pointer;
+    }
+    #installInfo{
+      margin-top:6px;
+      color:#334155;
+      font-size:13px;
+      line-height:1.4;
     }
   </style>
 </head>
@@ -125,10 +131,7 @@
     </div>
 
     <div class="seat-container">
-      <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; color: var(--primary);">
-        SELECT CAR SEATS
-      </p>
-
+      <p style="font-size:12px; font-weight:bold; margin-bottom:10px; color:var(--primary);">SELECT CAR SEATS</p>
       <div class="car-grid">
         <div class="seat" onclick="ts('S1',this)">S1</div><div></div><div class="seat driver">D</div>
         <div class="seat" onclick="ts('M1',this)">M1</div><div class="seat" onclick="ts('M2',this)">M2</div><div class="seat" onclick="ts('M3',this)">M3</div>
@@ -136,7 +139,7 @@
       </div>
     </div>
 
-    <h3 style="margin:20px 0 10px; color:var(--primary); font-size: 16px;">SELECT SERVICE</h3>
+    <h3 style="margin:20px 0 10px; color:var(--primary); font-size:16px;">SELECT SERVICE</h3>
     <div class="card active" onclick="sel('Shared Seat','shared',this)"><span>💺 Shared Seat</span><input type="number" id="p_shared" class="price-input" placeholder="₹"></div>
     <div class="card" onclick="sel('Airport Transfer','airport',this)"><span>✈️ Airport Transfer</span><input type="number" id="p_airport" class="price-input" placeholder="₹"></div>
     <div class="card" onclick="sel('One Way Full','oneway',this)"><span>🚗 One Way Full</span><input type="number" id="p_oneway" class="price-input" placeholder="₹"></div>
@@ -162,8 +165,10 @@
 
       <p>
         📌 Aap is app ko apne mobile me install kar sakte hain.<br>
-        Install karne ke baad fast open hogi aur browser bar nahi aayega.
+        Install ke baad fast open hogi aur browser bar nahi aayega.
       </p>
+
+      <div id="installInfo">🔄 Checking install option...</div>
 
       <button id="installBtn" class="installBtn">Install App</button>
       <button class="okBtn" onclick="closePopup()">OK</button>
@@ -206,9 +211,7 @@
 
       let msg = `*BOOKING CONFIRMED*%0A-----------------------%0A`;
       msg += `👤 *Customer:* ${name}%0A📞 *Mobile:* ${mob}%0A✅ *Pickup:* ${pLoc}%0A✅ *Drop:* ${dLoc}%0A✅ *Date:* ${date}%0A✅ *Time:* ${time}%0A✅ *Amount:* ₹${price}%0A✅ *Service:* ${sName}%0A`;
-
       if (seats.length > 0) msg += `💺 *Seats:* ${seats.join(', ')}%0A`;
-
       msg += `-----------------------%0A*BookGadi.com*`;
 
       window.location.href = "https://wa.me/91" + num + "?text=" + msg;
@@ -220,49 +223,65 @@
 
     const popup = document.getElementById("autoPopup");
     const installBtn = document.getElementById("installBtn");
+    const installInfo = document.getElementById("installInfo");
 
-    // Popup close
     function closePopup() {
       popup.style.display = "none";
-      localStorage.setItem("bookgadi_popup_seen", "yes"); // only once
+      localStorage.setItem("bookgadi_popup_seen", "yes");
     }
 
-    // Auto show popup only once
     window.addEventListener("load", () => {
       if (localStorage.getItem("bookgadi_popup_seen") !== "yes") {
         popup.style.display = "flex";
       }
     });
 
-    // Register SW (correct path for same folder)
+    // Register SW
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js")
-        .then(() => console.log("Service Worker Ready!"))
+        .then(reg => console.log("SW Ready:", reg.scope))
         .catch(err => console.log("SW Error:", err));
     }
 
     // Install prompt
     let deferredPrompt = null;
+
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
+
       installBtn.style.display = "block";
+      installInfo.innerHTML = "✅ Install option available.";
     });
 
     installBtn.addEventListener("click", async () => {
-      if (!deferredPrompt) return;
+      if (!deferredPrompt) {
+        installInfo.innerHTML = "❌ Install option not available.<br>Chrome menu (⋮) → <b>Add to Home Screen</b> use karein.";
+        return;
+      }
       deferredPrompt.prompt();
       await deferredPrompt.userChoice;
+
       deferredPrompt = null;
       installBtn.style.display = "none";
       closePopup();
     });
 
+    // If event not fired within 2 sec => show manual steps
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        if (!deferredPrompt) {
+          installBtn.style.display = "none";
+          installInfo.innerHTML = "📌 Install button browser ne allow nahi kiya.<br>Chrome menu (⋮) → <b>Add to Home screen</b> karein.";
+        }
+      }, 2000);
+    });
+
     window.addEventListener("appinstalled", () => {
       installBtn.style.display = "none";
+      installInfo.innerHTML = "✅ Installed Successfully!";
       closePopup();
     });
   </script>
-
 </body>
 </html>
