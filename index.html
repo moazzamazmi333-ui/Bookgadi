@@ -11,32 +11,11 @@
       "@context": "https://schema.org",
       "@type": "TaxiService",
       "name": "BookGadi",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "BookGadi Taxi Services",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Azamgarh",
-          "addressRegion": "UP",
-          "postalCode": "223221",
-          "addressCountry": "IN"
-        },
-        "telephone": "+919651191446",
-        "priceRange": "₹₹",
-        "image": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2"
-      },
-      "areaServed": [
-        {"@type": "City", "name": "Lucknow"},
-        {"@type": "City", "name": "Azamgarh"},
-        {"@type": "City", "name": "Gorakhpur"},
-        {"@type": "City", "name": "Varanasi"}
-      ],
-      "offers": {
-        "@type": "Offer",
-        "description": "One-Way Taxi Service starting at ₹2499"
-      }
+      "telephone": "+919651191446",
+      "areaServed": ["Lucknow", "Azamgarh", "Gorakhpur", "Varanasi"]
     }
     </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -46,79 +25,49 @@
             background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1500&q=80');
             background-size: cover; background-position: center;
         }
-        .route-card:hover, .service-card:hover { transform: translateY(-10px); transition: all 0.3s ease; }
+        .route-card:hover, .service-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
         .nav-glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-slate-900">
 
     <nav class="nav-glass shadow-sm fixed w-full z-[100] top-0 border-b">
-        <div class="container mx-auto px-4 md:px-12 py-4 flex justify-between items-center">
-            <div class="text-3xl font-extrabold text-slate-900 tracking-tighter italic">Book<span class="text-yellow-500">Gadi</span></div>
-            
-            <div class="hidden lg:flex items-center space-x-8 font-bold text-sm uppercase">
+        <div class="container mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
+            <div class="text-2xl font-extrabold tracking-tighter italic">Book<span class="text-yellow-500">Gadi</span></div>
+            <div class="hidden lg:flex items-center space-x-6 font-bold text-xs uppercase">
                 <a href="#home" class="hover:text-yellow-500 transition">Home</a>
                 <a href="#services" class="hover:text-yellow-500 transition">Services</a>
                 <a href="#routes" class="hover:text-yellow-500 transition">Routes</a>
-                <a href="#contact" class="hover:text-yellow-500 transition">Contact</a>
-                <a href="tel:+919651191446" class="bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-yellow-500 hover:text-slate-900 transition shadow-lg">
+                <a href="tel:+919651191446" class="bg-slate-900 text-white px-5 py-2 rounded-full hover:bg-yellow-500 hover:text-slate-900 transition shadow-md">
                     <i class="fas fa-phone-alt mr-2"></i> 9651191446
                 </a>
             </div>
-
-            <button id="menu-btn" class="lg:hidden text-2xl text-slate-800 focus:outline-none">
-                <i class="fas fa-bars-staggered"></i>
-            </button>
+            <button id="menu-btn" class="lg:hidden text-2xl text-slate-800 focus:outline-none"><i class="fas fa-bars-staggered"></i></button>
         </div>
-
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t p-6 space-y-4 shadow-2xl text-center">
-            <a href="#home" class="block font-bold text-slate-700">Home</a>
-            <a href="#services" class="block font-bold text-slate-700">Services</a>
-            <a href="#routes" class="block font-bold text-slate-700">Routes</a>
-            <a href="#contact" class="block font-bold text-slate-700">Contact Us</a>
-            <a href="tel:+919651191446" class="block bg-yellow-500 text-slate-900 py-3 rounded-xl font-bold">Call Now</a>
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t p-4 space-y-3 shadow-xl text-center font-bold">
+            <a href="#home" class="block">Home</a>
+            <a href="#services" class="block">Services</a>
+            <a href="#routes" class="block">Routes</a>
+            <a href="tel:+919651191446" class="block bg-yellow-500 py-2 rounded-lg">Call Now</a>
         </div>
     </nav>
 
-    <section id="home" class="hero-bg min-h-screen flex items-center pt-20 px-4">
-        <div class="container mx-auto grid lg:grid-cols-2 gap-12">
-            <div class="text-white space-y-6 self-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
-                    Premium <span class="text-yellow-500">One-Way</span> Cab From Lucknow.
-                </h1>
-                <p class="text-gray-300 text-lg md:max-w-md italic border-l-4 border-yellow-500 pl-4">
-                    Fastest travel to Azamgarh, Gorakhpur & Varanasi via Purvanchal Expressway.
-                </p>
-                <div class="flex space-x-4 pt-4 text-sm">
-                    <div class="flex items-center space-x-2"><i class="fas fa-check-circle text-yellow-500"></i><span>Best Rates</span></div>
-                    <div class="flex items-center space-x-2"><i class="fas fa-check-circle text-yellow-500"></i><span>Verified Drivers</span></div>
-                </div>
+    <section id="home" class="hero-bg min-h-[85vh] flex items-center pt-16 px-4">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-8">
+            <div class="text-white space-y-4 self-center">
+                <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Premium <span class="text-yellow-500">One-Way</span> Cab From Lucknow.</h1>
+                <p class="text-gray-300 text-md italic border-l-4 border-yellow-500 pl-4">Fastest travel via Purvanchal Expressway.</p>
             </div>
-
-            <div class="bg-white rounded-[2rem] p-8 shadow-2xl border-4 border-yellow-500/30 self-center">
-                <h2 class="text-2xl font-black text-slate-800 mb-6 text-center uppercase tracking-tight">Book Your Taxi</h2>
-                <div class="space-y-4">
-                    <div class="relative">
-                        <i class="fas fa-location-arrow absolute left-4 top-4 text-yellow-500"></i>
-                        <input type="text" id="pickup" value="Lucknow" class="w-full bg-slate-50 border p-4 pl-12 rounded-2xl outline-none font-semibold" readonly>
+            <div class="bg-white rounded-3xl p-6 shadow-2xl border-2 border-yellow-500/20 self-center">
+                <h2 class="text-xl font-black mb-4 text-center uppercase">Book Your Taxi</h2>
+                <div class="space-y-3">
+                    <input type="text" id="pickup" value="Lucknow" class="w-full bg-slate-50 border p-3 rounded-xl font-bold" readonly>
+                    <input type="text" id="drop" placeholder="Enter Drop City" class="w-full bg-slate-50 border p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500">
+                    <div class="grid grid-cols-2 gap-3">
+                        <select id="tripType" class="bg-slate-50 border p-3 rounded-xl outline-none"><option>One Way</option><option>Round Trip</option></select>
+                        <input type="date" id="travelDate" class="bg-slate-50 border p-3 rounded-xl outline-none">
                     </div>
-                    <div class="relative">
-                        <i class="fas fa-map-marker-alt absolute left-4 top-4 text-gray-400"></i>
-                        <input type="text" id="drop" placeholder="Enter Drop City" class="w-full bg-slate-50 border p-4 pl-12 rounded-2xl focus:ring-2 focus:ring-yellow-500 outline-none">
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="relative">
-                            <select id="tripType" class="w-full bg-slate-50 border p-4 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 appearance-none font-medium">
-                                <option>One Way</option>
-                                <option>Round Trip</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-4 top-5 text-gray-400 pointer-events-none"></i>
-                        </div>
-                        <input type="date" id="travelDate" class="w-full bg-slate-50 border p-4 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-medium">
-                    </div>
-
-                    <button onclick="sendWhatsApp()" class="w-full bg-green-500 text-white font-black py-5 rounded-2xl hover:bg-slate-900 transition duration-300 shadow-xl uppercase tracking-widest flex items-center justify-center gap-3">
+                    <button onclick="sendWhatsApp()" class="w-full bg-green-500 text-white font-black py-4 rounded-xl hover:bg-slate-900 transition flex items-center justify-center gap-2">
                         <i class="fab fa-whatsapp text-xl"></i> Book on WhatsApp
                     </button>
                 </div>
@@ -126,179 +75,90 @@
         </div>
     </section>
 
-    <section id="services" class="py-24 bg-slate-50">
+    <section id="services" class="py-12 bg-slate-50">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-black text-slate-900 uppercase italic mb-4">Our <span class="text-yellow-500">Fleet</span> & Services</h2>
-            <p class="text-gray-500 mb-16">Choose the perfect ride for your journey</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 service-card text-center">
-                    <i class="fas fa-car text-4xl text-yellow-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">Sedan (Dzire/Etios)</h3>
-                    <p class="text-gray-600 text-sm">Perfect for small families (4+1 seater). Clean and comfortable AC cars.</p>
+            <h2 class="text-3xl font-black uppercase italic mb-2">Our <span class="text-yellow-500">Fleet</span></h2>
+            <p class="text-gray-500 mb-8">Choose your ride</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-car text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">Sedan</h3><p class="text-xs text-gray-500">4+1 Seater AC</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-shuttle-van text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">SUV</h3><p class="text-xs text-gray-500">6+1 Seater AC</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-plane text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">Airport</h3><p class="text-xs text-gray-500">24/7 Pickup</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="routes" class="py-12 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-black uppercase italic mb-8">Popular <span class="text-yellow-500">Express</span> Routes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 rounded-2xl p-6 border route-card">
+                    <h3 class="font-bold">Lucknow ⇌ Azamgarh</h3>
+                    <div class="mt-4 border-t pt-2"><span class="font-extrabold text-lg">₹3500*</span></div>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 service-card text-center">
-                    <i class="fas fa-shuttle-van text-4xl text-yellow-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">SUV (Ertiga/Innova)</h3>
-                    <p class="text-gray-600 text-sm">Spacious 6+1 or 7+1 seater for group travels and long routes.</p>
+                <div class="bg-slate-50 rounded-2xl p-6 border route-card">
+                    <h3 class="font-bold">Lucknow ⇌ Gorakhpur</h3>
+                    <div class="mt-4 border-t pt-2"><span class="font-extrabold text-lg">₹6000*</span></div>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 service-card text-center">
-                    <i class="fas fa-clock text-4xl text-yellow-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">Airport Transfers</h3>
-                    <p class="text-gray-600 text-sm">Timely pickup and drop-off at Amausi Airport (LKO) 24/7.</p>
+                <div class="bg-slate-50 rounded-2xl p-6 border route-card">
+                    <h3 class="font-bold">Lucknow ⇌ Varanasi</h3>
+                    <div class="mt-4 border-t pt-2"><span class="font-extrabold text-lg">₹5000*</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="routes" class="py-24 bg-white text-center">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-black text-slate-900 uppercase italic mb-16">Popular <span class="text-yellow-500">Express</span> Routes</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
-                <div class="bg-slate-50 rounded-3xl p-7 border border-gray-100 route-card">
-                    <h3 class="text-xl font-bold text-slate-900">Lucknow ⇌ Azamgarh</h3>
-                    <p class="text-gray-500 text-sm mt-2 mb-6 italic">Via Purvanchal Expressway.</p>
-                    <div class="border-t pt-4">
-                        <span class="font-extrabold text-slate-900">₹3500*</span>
-                        <a href="https://wa.me/919651191446" class="block mt-2 text-yellow-600 font-bold">BOOK ON WHATSAPP</a>
-                    </div>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-7 border border-gray-100 route-card">
-                    <h3 class="text-xl font-bold text-slate-900">Lucknow ⇌ Gorakhpur</h3>
-                    <p class="text-gray-500 text-sm mt-2 mb-6 italic">Best rates via NH-27.</p>
-                    <div class="border-t pt-4">
-                        <span class="font-extrabold text-slate-900">₹6000*</span>
-                        <a href="https://wa.me/919651191446" class="block mt-2 text-yellow-600 font-bold">BOOK ON WHATSAPP</a>
-                    </div>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-7 border border-gray-100 route-card">
-                    <h3 class="text-xl font-bold text-slate-900">Lucknow ⇌ Varanasi</h3>
-                    <p class="text-gray-500 text-sm mt-2 mb-6 italic">Safe family travel cabs.</p>
-                    <div class="border-t pt-4">
-                        <span class="font-extrabold text-slate-900">₹5000*</span>
-                        <a href="https://wa.me/919651191446" class="block mt-2 text-yellow-600 font-bold">BOOK ON WHATSAPP</a>
-                    </div>
-                </div>
-            </div>
+    <section class="py-10 bg-white border-t">
+        <div class="container mx-auto px-6 text-center max-w-4xl">
+            <h2 class="text-2xl font-black mb-4 uppercase italic">About <span class="text-yellow-500">BookGadi</span></h2>
+            <p class="text-gray-600 text-sm leading-relaxed italic">BookGadi provides reliable taxi services from Lucknow to Azamgarh, Gorakhpur, and Varanasi via Purvanchal Expressway. Available 24/7 for Airport pickups and family trips.</p>
         </div>
     </section>
 
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-black text-slate-900 mb-6 uppercase italic">About <span class="text-yellow-500">BookGadi</span> Service</h2>
-                <p class="text-gray-600 leading-relaxed text-lg italic">
-                    BookGadi is a premier taxi provider specializing in one-way and round-trip journeys from <b>Lucknow to Azamgarh, Gorakhpur, and Varanasi</b>. We operate primarily via the <b>Purvanchal Expressway</b> to ensure a fast and smooth travel experience. Whether you need an urgent <b>Airport pickup</b> from Amausi Airport or a family trip, our verified drivers and well-maintained fleet are available 24/7.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-12 bg-slate-50 border-t">
-        <div class="container mx-auto px-6">
-            <h3 class="text-2xl font-black text-slate-900 mb-6 text-center uppercase italic">Estimated <span class="text-yellow-500">One-Way</span> Fares</h3>
-            <div class="overflow-x-auto bg-white rounded-3xl shadow-xl border border-slate-100 max-w-4xl mx-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-slate-900 text-white">
-                            <th class="p-4 font-bold uppercase text-xs">Route (From Lucknow)</th>
-                            <th class="p-4 font-bold uppercase text-xs text-center">Sedan (Dzire)</th>
-                            <th class="p-4 font-bold uppercase text-xs text-center">SUV (Ertiga)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-slate-700 font-medium text-center">
-                        <tr class="border-b"><td class="p-4 text-left italic">to Azamgarh</td><td class="p-4 text-green-600 font-bold">₹2999</td><td class="p-4 text-green-600 font-bold">₹3499</td></tr>
-                        <tr class="border-b"><td class="p-4 text-left italic">to Gorakhpur</td><td class="p-4 text-green-600 font-bold">₹5000</td><td class="p-4 text-green-600 font-bold">₹6500</td></tr>
-                        <tr><td class="p-4 text-left italic">to Varanasi</td><td class="p-4 text-green-600 font-bold">₹5000</td><td class="p-4 text-green-600 font-bold">₹6500</td></tr>
-                    </tbody>
+    <section class="py-10 bg-slate-50 border-t">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h3 class="text-xl font-black mb-6 text-center uppercase italic underline decoration-yellow-500">Estimated Fares</h3>
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border">
+                <table class="w-full text-sm">
+                    <tr class="bg-slate-900 text-white text-left"><th class="p-3">Route</th><th class="p-3 text-center">Sedan</th><th class="p-3 text-center">SUV</th></tr>
+                    <tr class="border-b"><td class="p-3 font-bold">to Azamgarh</td><td class="p-3 text-center text-green-600">₹2999</td><td class="p-3 text-center text-green-600">₹3499</td></tr>
+                    <tr class="border-b"><td class="p-3 font-bold">to Gorakhpur</td><td class="p-3 text-center text-green-600">₹5000</td><td class="p-3 text-center text-green-600">₹6000</td></tr>
+                    <tr><td class="p-3 font-bold">to Varanasi</td><td class="p-3 text-center text-green-600">₹5000</td><td class="p-3 text-center text-green-600">₹6500</td></tr>
                 </table>
             </div>
         </div>
     </section>
 
-    <section class="py-16 bg-white border-t">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-black text-slate-900 uppercase italic mb-8">Our Service Areas</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Lucknow</div>
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Azamgarh</div>
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Gorakhpur</div>
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Varanasi</div>
+    <section class="py-10 bg-slate-900 text-white">
+        <div class="container mx-auto px-6 max-w-2xl">
+            <h3 class="text-xl font-black mb-6 text-center uppercase italic">FAQ</h3>
+            <div class="space-y-2">
+                <details class="bg-slate-800 p-4 rounded-xl cursor-pointer"><summary class="font-bold text-sm">Airport Pickup?</summary><p class="text-xs text-slate-400 mt-2">Yes, 24/7 from LKO Airport.</p></details>
+                <details class="bg-slate-800 p-4 rounded-xl cursor-pointer"><summary class="font-bold text-sm">Hidden Charges?</summary><p class="text-xs text-slate-400 mt-2">No. Toll/Parking extra as per actuals.</p></details>
             </div>
         </div>
     </section>
 
-    <section class="py-16 bg-slate-900 text-white rounded-t-[3rem]">
-        <div class="container mx-auto px-6 max-w-4xl text-left">
-            <h3 class="text-2xl font-black mb-10 text-center uppercase italic tracking-widest">Booking <span class="text-yellow-500">Guide</span> & FAQ</h3>
-            <div class="space-y-4">
-                <details class="bg-slate-800 p-5 rounded-2xl cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center">LKO Airport se Azamgarh ka cab mil jayega? <i class="fas fa-chevron-down text-xs"></i></summary>
-                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">Haan, hum 24/7 Amausi Airport (LKO) se pickup dete hain.</p>
-                </details>
-                <details class="bg-slate-800 p-5 rounded-2xl cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center">Kya koi hidden charges hain? <i class="fas fa-chevron-down text-xs"></i></summary>
-                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">Nahi, rates transparent hain. Toll aur parking extra hota hai.</p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-24 bg-slate-900 text-white border-t border-slate-800">
-        <div class="container mx-auto px-4 text-left">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-black uppercase italic mb-4">Contact <span class="text-yellow-500">Us</span></h2>
-                <p class="text-slate-400">We are available 24/7 for your service</p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="space-y-8">
-                    <div class="flex items-start space-x-6">
-                        <div class="bg-yellow-500 p-4 rounded-2xl text-slate-900"><i class="fas fa-map-marker-alt text-xl"></i></div>
-                        <div>
-                            <h4 class="text-xl font-bold mb-1">Our Location</h4>
-                            <p class="text-slate-400">Fulwariya, Azamgarh, Uttar Pradesh - 223221</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-6">
-                        <div class="bg-yellow-500 p-4 rounded-2xl text-slate-900"><i class="fas fa-phone-alt text-xl"></i></div>
-                        <div>
-                            <h4 class="text-xl font-bold mb-1">Call Us</h4>
-                            <p class="text-slate-400">+91 96511 91446</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-6">
-                        <div class="bg-yellow-500 p-4 rounded-2xl text-slate-900"><i class="fas fa-envelope text-xl"></i></div>
-                        <div>
-                            <h4 class="text-xl font-bold mb-1">Email Support</h4>
-                            <p class="text-slate-400">support@bookgadi.online</p>
-                        </div>
-                    </div>
+    <section id="contact" class="py-12 bg-slate-900 text-white border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-black text-center uppercase italic mb-8">Contact <span class="text-yellow-500">Us</span></h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-center space-x-4"><i class="fas fa-phone-alt text-yellow-500"></i><span>+91 96511 91446</span></div>
+                    <div class="flex items-center space-x-4"><i class="fas fa-map-marker-alt text-yellow-500"></i><span>Fulwariya, Azamgarh, UP</span></div>
                 </div>
-
-                <div class="rounded-3xl overflow-hidden h-96 bg-slate-800 border-4 border-slate-700 shadow-2xl">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114644.24945115286!2d83.1090382!3d26.0610582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39912079093a8d11%3A0xb35e3818e692290!2sAzamgarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
+                <div class="h-64 rounded-2xl overflow-hidden shadow-xl border-2 border-slate-700">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114543.51817757913!2d83.10915338780287!3d26.050352523277085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991a0349e5d4481%3A0xc664670054d5e895!2sAzamgarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-black text-white py-10 border-t border-slate-800 text-center">
-        <div class="container mx-auto px-4 text-center">
-            <div class="text-2xl font-black italic mb-4">Book<span class="text-yellow-500">Gadi</span></div>
-            <p class="text-gray-500 text-sm uppercase tracking-widest text-center">© 2026 BookGadi India | Lucknow - Azamgarh - Varanasi</p>
-        </div>
+    <footer class="bg-black text-white py-6 text-center border-t border-slate-800">
+        <p class="text-[10px] text-gray-500 uppercase tracking-widest">© 2026 BookGadi India | Lucknow - Azamgarh - Varanasi</p>
     </footer>
 
-    <a href="https://wa.me/919651191446" class="fixed bottom-8 right-8 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-[200] hover:scale-110 transition animate-bounce">
-        <i class="fab fa-whatsapp text-4xl"></i>
+    <a href="https://wa.me/919651191446" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[200] animate-bounce">
+        <i class="fab fa-whatsapp text-3xl"></i>
     </a>
 
     <script>
@@ -307,18 +167,11 @@
         btn.addEventListener('click', () => menu.classList.toggle('hidden'));
 
         function sendWhatsApp() {
-            const pickup = document.getElementById('pickup').value;
             const drop = document.getElementById('drop').value;
-            const tripType = document.getElementById('tripType').value;
             const date = document.getElementById('travelDate').value;
-
-            if(!drop || !date) {
-                alert("Please fill in Drop City and Date");
-                return;
-            }
-
-            const message = `Hello BookGadi! I want to book a taxi.%0A%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Trip Type:* ${tripType}%0A*Date:* ${date}`;
-            window.open(`https://wa.me/919651191446?text=${message}`, '_blank');
+            if(!drop || !date) { alert("Please fill details"); return; }
+            const msg = `Hello BookGadi! Taxi Booking:%0A*From:* Lucknow%0A*To:* ${drop}%0A*Date:* ${date}`;
+            window.open(`https://wa.me/919651191446?text=${msg}`, '_blank');
         }
     </script>
 </body>
