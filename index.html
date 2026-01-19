@@ -6,6 +6,37 @@
     <title>BookGadi | Lucknow to Azamgarh, Gorakhpur & Varanasi Taxi Service</title>
     <meta name="description" content="Book affordable Lucknow to Azamgarh, Gorakhpur, and Varanasi cabs. One-way and Airport taxi service available 24/7. Call 9651191446 for best rates.">
     
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "name": "BookGadi",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "BookGadi Taxi Services",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Azamgarh",
+          "addressRegion": "UP",
+          "postalCode": "223221",
+          "addressCountry": "IN"
+        },
+        "telephone": "+919651191446",
+        "priceRange": "₹₹",
+        "image": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2"
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Lucknow"},
+        {"@type": "City", "name": "Azamgarh"},
+        {"@type": "City", "name": "Gorakhpur"},
+        {"@type": "City", "name": "Varanasi"}
+      ],
+      "offers": {
+        "@type": "Offer",
+        "description": "One-Way Taxi Service starting at ₹2499"
+      }
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -120,10 +151,10 @@
         </div>
     </section>
 
-    <section id="routes" class="py-24 bg-white">
-        <div class="container mx-auto px-4 text-center">
+    <section id="routes" class="py-24 bg-white text-center">
+        <div class="container mx-auto px-4">
             <h2 class="text-4xl font-black text-slate-900 uppercase italic mb-16">Popular <span class="text-yellow-500">Express</span> Routes</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
                 <div class="bg-slate-50 rounded-3xl p-7 border border-gray-100 route-card">
                     <h3 class="text-xl font-bold text-slate-900">Lucknow ⇌ Azamgarh</h3>
                     <p class="text-gray-500 text-sm mt-2 mb-6 italic">Via Purvanchal Expressway.</p>
@@ -152,8 +183,69 @@
         </div>
     </section>
 
-    <section id="contact" class="py-24 bg-slate-900 text-white">
-        <div class="container mx-auto px-4">
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-black text-slate-900 mb-6 uppercase italic">About <span class="text-yellow-500">BookGadi</span> Service</h2>
+                <p class="text-gray-600 leading-relaxed text-lg italic">
+                    BookGadi is a premier taxi provider specializing in one-way and round-trip journeys from <b>Lucknow to Azamgarh, Gorakhpur, and Varanasi</b>. We operate primarily via the <b>Purvanchal Expressway</b> to ensure a fast and smooth travel experience. Whether you need an urgent <b>Airport pickup</b> from Amausi Airport or a family trip, our verified drivers and well-maintained fleet are available 24/7.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-slate-50 border-t">
+        <div class="container mx-auto px-6">
+            <h3 class="text-2xl font-black text-slate-900 mb-6 text-center uppercase italic">Estimated <span class="text-yellow-500">One-Way</span> Fares</h3>
+            <div class="overflow-x-auto bg-white rounded-3xl shadow-xl border border-slate-100 max-w-4xl mx-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-900 text-white">
+                            <th class="p-4 font-bold uppercase text-xs">Route (From Lucknow)</th>
+                            <th class="p-4 font-bold uppercase text-xs text-center">Sedan (Dzire)</th>
+                            <th class="p-4 font-bold uppercase text-xs text-center">SUV (Ertiga)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-700 font-medium text-center">
+                        <tr class="border-b"><td class="p-4 text-left italic">to Azamgarh</td><td class="p-4 text-green-600 font-bold">₹2499</td><td class="p-4 text-green-600 font-bold">₹3499</td></tr>
+                        <tr class="border-b"><td class="p-4 text-left italic">to Gorakhpur</td><td class="p-4 text-green-600 font-bold">₹2799</td><td class="p-4 text-green-600 font-bold">₹3999</td></tr>
+                        <tr><td class="p-4 text-left italic">to Varanasi</td><td class="p-4 text-green-600 font-bold">₹2999</td><td class="p-4 text-green-600 font-bold">₹4499</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-white border-t">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-black text-slate-900 uppercase italic mb-8">Our Service Areas</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Lucknow</div>
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Azamgarh</div>
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Gorakhpur</div>
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 font-bold uppercase text-xs shadow-sm">Varanasi</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-slate-900 text-white rounded-t-[3rem]">
+        <div class="container mx-auto px-6 max-w-4xl text-left">
+            <h3 class="text-2xl font-black mb-10 text-center uppercase italic tracking-widest">Booking <span class="text-yellow-500">Guide</span> & FAQ</h3>
+            <div class="space-y-4">
+                <details class="bg-slate-800 p-5 rounded-2xl cursor-pointer">
+                    <summary class="font-bold flex justify-between items-center">LKO Airport se Azamgarh ka cab mil jayega? <i class="fas fa-chevron-down text-xs"></i></summary>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">Haan, hum 24/7 Amausi Airport (LKO) se pickup dete hain.</p>
+                </details>
+                <details class="bg-slate-800 p-5 rounded-2xl cursor-pointer">
+                    <summary class="font-bold flex justify-between items-center">Kya koi hidden charges hain? <i class="fas fa-chevron-down text-xs"></i></summary>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">Nahi, rates transparent hain. Toll aur parking extra hota hai.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-slate-900 text-white border-t border-slate-800">
+        <div class="container mx-auto px-4 text-left">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-black uppercase italic mb-4">Contact <span class="text-yellow-500">Us</span></h2>
                 <p class="text-slate-400">We are available 24/7 for your service</p>
@@ -179,30 +271,29 @@
                         <div class="bg-yellow-500 p-4 rounded-2xl text-slate-900"><i class="fas fa-envelope text-xl"></i></div>
                         <div>
                             <h4 class="text-xl font-bold mb-1">Email Support</h4>
-                            <p class="text-slate-400">support@bookgadi.com</p>
+                            <p class="text-slate-400">support@bookgadi.online</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="rounded-3xl overflow-hidden h-96 bg-slate-800 border-4 border-slate-700 shadow-2xl">
-     <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3581.0356964262182!2d82.8709502!3d26.162966899999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399055e27587313b%3A0x45d810f197864314!2sCab%20Service%20Fulwariya%20Azamgarh!5e0!3m2!1sen!2sin!4v1768831549505!5m2!1sen!2sin" 
-        width="100%" 
-        height="100%" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
- </div>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114644.24945115286!2d83.1090382!3d26.0610582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39912079093a8d11%3A0xb35e3818e692290!2sAzamgarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
             </div>
         </div>
     </section>
 
     <footer class="bg-black text-white py-10 border-t border-slate-800 text-center">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 text-center">
             <div class="text-2xl font-black italic mb-4">Book<span class="text-yellow-500">Gadi</span></div>
-            <p class="text-gray-500 text-sm uppercase tracking-widest">© 2026 BookGadi India | Lucknow - Azamgarh - Varanasi</p>
+            <p class="text-gray-500 text-sm uppercase tracking-widest text-center">© 2026 BookGadi India | Lucknow - Azamgarh - Varanasi</p>
         </div>
     </footer>
 
@@ -230,6 +321,5 @@
             window.open(`https://wa.me/919651191446?text=${message}`, '_blank');
         }
     </script>
-
 </body>
 </html>
