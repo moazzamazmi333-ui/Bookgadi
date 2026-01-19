@@ -1,7 +1,8 @@
 {
-  "name": "BookGadi",
+  "name": "BookGadi Note",
   "short_name": "BookNote",
-  "start_url": "https://bookgadi.online/note/",
+  "start_url": "/note/index.html",
+  "scope": "/note/",
   "display": "standalone",
   "background_color": "#002b5c",
   "theme_color": "#002b5c",
