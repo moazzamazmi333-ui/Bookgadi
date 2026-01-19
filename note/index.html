@@ -74,6 +74,14 @@
     <div class="footer"><button class="btn" onclick="send()">SEND TO WHATSAPP</button></div>
 
     <script>
+        // Service Worker Register
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW Registered'))
+            .catch(err => console.log('SW Failed', err));
+    });
+}
         let sName = "Shared Seat", sType = "shared", seats = [];
         function sel(n, t, e) {
             sName = n; sType = t;
