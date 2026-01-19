@@ -113,12 +113,10 @@
             window.location.href = "https://wa.me/91" + num + "?text=" + msg;
         }
         if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/note/sw.js')
-            .then(reg => console.log('SW Registered Successfully!'))
-            .catch(err => console.log('SW Registration Failed', err));
-    });
-}
+    navigator.serviceWorker.register('/note/sw.js', { scope: '/note/' })
+    .then(() => console.log("Ready!"))
+    .catch(err => console.log("Error:", err));
+    }
     </script>
 </body>
 </html>
