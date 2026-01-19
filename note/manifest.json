@@ -1,5 +1,5 @@
 {
-  "name": "BookGadi Note",
+  "name": "BookGadi",
   "short_name": "BookNote",
   "start_url": "/note/index.html",
   "scope": "/note/",
