@@ -35,3 +35,6 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+self.addEventListener('fetch', (event) => {
+  // Isse browser ko installable signal milta hai
+});
