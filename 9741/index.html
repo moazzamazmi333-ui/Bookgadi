@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BookGadi | Tracker PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root { --primary:#2563eb; --danger:#ef4444; --dark:#1e293b; }
+  html,body{margin:0;padding:0;height:100%;font-family:sans-serif;background:#fff;display:flex;flex-direction:column;overflow:hidden;}
+  #mainCard{width:100%;background:#fff;padding:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:20;border-bottom:1px solid #eee;}
+  .container{width:92%;margin:0 auto;}
+  .top-row{display:flex;gap:12px;align-items:center;border-bottom:1px solid #f1f5f9;padding-bottom:10px;margin-bottom:10px;}
+  #driverPhoto{width:55px;height:55px;border-radius:12px;object-fit:cover;border:2px solid #eee;cursor:zoom-in;transition:.3s;}
+  #driverPhoto:hover{border-color:var(--primary);}
+  .driver-meta{flex:1;}
+  #driverName{font-weight:800;font-size:15px;color:var(--dark);display:block;}
+  #driverCar{font-size:12px;color:#64748b;font-weight:600;}
+  #driverMobile{font-size:12px;color:var(--primary);text-decoration:none;font-weight:700;display:block;margin-top:2px;}
+  .stats-row{display:flex;justify-content:space-between;text-align:center;}
+  .stat-item{flex:1;}
+  .stat-item small{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;}
+  .stat-item b{display:block;font-size:13px;color:var(--dark);margin-top:2px;}
+  #driverAddress{background:#f8fafc;color:var(--danger);font-size:10px;font-weight:700;padding:6px;border-radius:6px;margin-top:8px;border:1px solid #e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #map-wrapper{flex:1;width:100%;position:relative;}
+  #map{width:100%;height:100%;}
+  .map-controls{position:absolute;left:10px;bottom:30px;display:flex;flex-direction:column;gap:10px;z-index:100;}
+  .map-controls button{width:45px;height:45px;border-radius:12px;border:none;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.2);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;}
+  #btnVehicle{background:var(--primary);color:#fff;}
+  #photoModal{display:none;position:fixed;z-index:1000;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+  #zoomedImg{max-width:90%;max-height:70%;border-radius:15px;border:3px solid #fff;box-shadow:0 0 30px rgba(0,0,0,.5);}
+
+  /* ===== ID LOCK OVERLAY ===== */
+  #blockOverlay{
+    position:fixed;
+    inset:0;
+    z-index:2147483647;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:#fff;
+  }
+  #accessBox{ text-align:center; }
+  .loader{
+    width:50px;
+    height:50px;
+    border:5px solid rgba(255,255,255,0.3);
+    border-top:5px solid #fff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 20px;
+  }
+  @keyframes spin{
+    0%{transform:rotate(0deg)}
+    100%{transform:rotate(360deg)}
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ✅ ID LOCK SCREEN -->
+<div id="blockOverlay">
+  <div id="accessBox">
+    <div class="loader"></div>
+    <h2>Checking access…</h2>
+    <p>Please wait</p>
+  </div>
+</div>
+
+<div id="photoModal" onclick="closeModal()">
+  <img id="zoomedImg" src="" alt="">
+</div>
+
+<div id="mainCard">
+  <div class="container">
+    <div class="top-row">
+      <img id="driverPhoto" src="" onclick="openModal(this.src)" alt="Driver">
+      <div class="driver-meta">
+        <span id="driverName">Connecting...</span>
+        <span id="driverCar">Vehicle: --</span>
+        <a id="driverMobile" href="#">📞 Call Driver</a>
+      </div>
+      <div style="text-align:right;">
+        <small style="font-size:9px;font-weight:700;">SPEED</small>
+        <b id="speed" style="display:block;font-size:16px;color:var(--primary);">0</b>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item"><small>Distance</small><b id="dist">--</b></div>
+      <div class="stat-item" style="border-left:1px solid #eee;border-right:1px solid #eee;"><small>ETA</small><b id="eta">--</b></div>
+      <div class="stat-item"><small>Status</small><b id="ignition">OFF</b></div>
+    </div>
+
+    <div id="driverAddress">📍 Loading live data...</div>
+  </div>
+</div>
+
+<div id="map-wrapper">
+  <div id="map"></div>
+  <div class="map-controls">
+    <button id="btnTraffic">🚦</button>
+    <button id="btnMe">📍</button>
+    <button id="btnVehicle">🚗</button>
+  </div>
+</div>
+
+<script>
+/* ===========================
+   ✅ ID LOCK SYSTEM
+=========================== */
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=1569920623&single=true&output=csv";
+
+const params = new URLSearchParams(window.location.search);
+const pageId = params.get("id");
+
+function showError(title, msg){
+  const loader = document.querySelector(".loader");
+  if(loader) loader.style.display="none";
+  document.querySelector("#accessBox h2").innerText = title;
+  document.querySelector("#accessBox p").innerText = msg;
+}
+
+async function checkAccess(){
+  if(!pageId){
+    showError("Access Denied", "ID is required to open this page.");
+    return;
+  }
+  try{
+    const r = await fetch(CSV_URL + "&t=" + Date.now());
+    const csv = await r.text();
+    const rows = csv.split(/\r?\n/).map(r => r.split(","));
+
+    let valid = false;
+    rows.forEach(row=>{
+      const sheetId = (row[1] || "").trim(); // Column B = ID
+      if(sheetId === pageId) valid = true;
+    });
+
+    if(valid){
+      document.getElementById("blockOverlay").remove();
+      start(); // ✅ tracker start ONLY after valid ID
+      setTimeout(()=> window.dispatchEvent(new Event("resize")), 500);
+    }else{
+      showError("Invalid ID", "Access not allowed.");
+    }
+  }catch(e){
+    showError("Error", "Could not load ID list. Try again later.");
+  }
+}
+
+checkAccess();
+</script>
+
+<script>
+/* ===========================
+   ✅ TRACKER CODE START
+=========================== */
+const API_KEY   = "AIzaSyB8fFUPeGfUy8Wwh-mQ_d3fbGZzKBy7VwM";
+const GPS_API   = "https://gps51-proxy.moazzamazmi333.workers.dev/";
+const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=587843648&single=true&output=csv";
+const CAR_ICON_URL = "https://static.wixstatic.com/media/843689_497878e241e348adbd167a8cc7462f1b~mv2.png";
+
+const HEADING_FREEZE_SPEED = 5;
+let lastStableHeading = 0;
+
+let map, userMarker, carMarker, trafficLayer, directionsService, directionsRenderer, geocoder;
+let clat, clng, ulat, ulng, DEVICE_ID, followVehicle=true;
+
+function openModal(src){ if(!src) return; document.getElementById("zoomedImg").src=src; document.getElementById("photoModal").style.display="flex"; }
+function closeModal(){ document.getElementById("photoModal").style.display="none"; }
+function setStatus(msg){ document.getElementById("driverAddress").innerText="📍 "+msg; }
+
+function loadGoogleMaps(){
+  return new Promise((resolve,reject)=>{
+    const s=document.createElement("script");
+    s.src=`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=geometry,places`;
+    s.async=true; s.defer=true;
+    s.onload=resolve;
+    s.onerror=()=>reject("Google Maps blocked");
+    document.head.appendChild(s);
+  });
+}
+
+function initMap(){
+  map=new google.maps.Map(document.getElementById("map"),{
+    center:{lat:26.85,lng:80.95},
+    zoom:15,
+
+    // ✅ WHITE MAP THEME BACK
+    styles:[
+      { elementType:"geometry", stylers:[{color:"#ffffff"}] },
+      { featureType:"road", elementType:"geometry", stylers:[{color:"#f1f5f9"}] },
+      { featureType:"road", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
+      { featureType:"road", elementType:"labels.text.stroke", stylers:[{color:"#ffffff"}] },
+
+      { featureType:"poi", elementType:"geometry", stylers:[{color:"#ffffff"}] },
+      { featureType:"poi.park", elementType:"geometry", stylers:[{color:"#e2e8f0"}] },
+
+      { featureType:"water", elementType:"geometry", stylers:[{color:"#dbeafe"}] },
+      { featureType:"water", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
+
+      { featureType:"transit", elementType:"geometry", stylers:[{color:"#ffffff"}] },
+      { featureType:"administrative", elementType:"geometry.stroke", stylers:[{color:"#e2e8f0"}] }
+    ]
+  });
+
+  trafficLayer=new google.maps.TrafficLayer();
+  geocoder=new google.maps.Geocoder();
+  directionsService=new google.maps.DirectionsService();
+  directionsRenderer=new google.maps.DirectionsRenderer({
+    map, suppressMarkers:true, preserveViewport:true,
+    polylineOptions:{ strokeColor:"#2563eb", strokeWeight:6 }
+  });
+
+  carMarker=new google.maps.Marker({
+    map,
+    position:{lat:26.85,lng:80.95},
+    icon:{ url:CAR_ICON_URL, scaledSize:new google.maps.Size(46,46), anchor:new google.maps.Point(23,23) },
+    optimized:false,
+    zIndex:9999
+  });
+
+  loadSheet();
+  startUserLocation();
+}
+
+
+function startUserLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.watchPosition((pos)=>{
+      ulat=pos.coords.latitude; ulng=pos.coords.longitude;
+      const userPos={lat:ulat,lng:ulng};
+      if(!userMarker){
+        userMarker=new google.maps.Marker({
+          map, position:userPos,
+          icon:{path:google.maps.SymbolPath.CIRCLE, scale:6, fillColor:"#2563eb", strokeColor:"white", strokeWeight:2}
+        });
+      } else userMarker.setPosition(userPos);
+      calculateRouteUserToCar();
+    }, null, {enableHighAccuracy:true});
+  }
+}
+
+async function loadVehicle(){
+  if(!DEVICE_ID) return;
+  try{
+    const r=await fetch(GPS_API + "?t=" + Date.now(), {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ deviceids:[DEVICE_ID] })
+    });
+    const j=await r.json();
+    const v=j.records?.[0];
+    if(!v) return;
+
+    clat=parseFloat(v.callat); clng=parseFloat(v.callon);
+    const speed=Math.floor((Number(v.speed)||0)/1000);
+    const carPos=new google.maps.LatLng(clat,clng);
+
+    let rawHeading=Number(v.course)||0;
+    if(speed>=HEADING_FREEZE_SPEED) lastStableHeading=rawHeading;
+
+    carMarker.setPosition(carPos);
+
+    const markerImg=document.querySelector('img[src*="843689_497878e241e348adbd167a8cc7462f1b"]');
+    if(markerImg){
+      markerImg.style.transition="transform 0.6s linear";
+      markerImg.style.transform=`rotate(${lastStableHeading}deg)`;
+    }
+
+    if(followVehicle) map.panTo(carPos);
+    document.getElementById("speed").innerText=speed+" km/h";
+    document.getElementById("ignition").innerText=speed>0?"MOVING":"IDLE";
+
+    geocoder.geocode({ location: carPos }, (res, stat)=>{
+      if(stat==="OK" && res[0]) setStatus(res[0].formatted_address);
+    });
+
+    calculateRouteUserToCar();
+  }catch(e){}
+}
+
+function calculateRouteUserToCar(){
+  if(!ulat || !clat) return;
+  directionsService.route({
+    origin:{lat:ulat,lng:ulng},
+    destination:{lat:clat,lng:clng},
+    travelMode:"DRIVING"
+  }, (result,status)=>{
+    if(status==="OK"){
+      directionsRenderer.setDirections(result);
+      const leg=result.routes[0].legs[0];
+      document.getElementById("dist").innerText=leg.distance.text;
+      document.getElementById("eta").innerText=leg.duration.text;
+    }
+  });
+}
+
+function loadSheet(){
+  fetch(SHEET_CSV + "&t=" + Date.now()).then(r=>r.text()).then(csv=>{
+    const lines=csv.trim().split("\n");
+    if(lines.length<2) return;
+    const row=lines[1].split(",");
+    DEVICE_ID=row[0].trim();
+    document.getElementById("driverName").innerText=row[1];
+    document.getElementById("driverCar").innerText="Vehicle: "+row[3];
+    document.getElementById("driverMobile").href="tel:"+row[2];
+    document.getElementById("driverPhoto").src=row[4];
+    loadVehicle();
+    setInterval(loadVehicle, 3000);
+  });
+}
+
+document.getElementById("btnTraffic").onclick=()=>trafficLayer.setMap(trafficLayer.getMap()?null:map);
+document.getElementById("btnVehicle").onclick=()=>{ followVehicle=true; map.panTo({lat:clat,lng:clng}); };
+document.getElementById("btnMe").onclick=()=>{ followVehicle=false; map.panTo({lat:ulat,lng:ulng}); };
+
+async function start(){
+  try{ await loadGoogleMaps(); initMap(); } catch(e){}
+}
+</script>
+
+</body>
+</html>
