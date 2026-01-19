@@ -77,9 +77,9 @@
         // Service Worker Register
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('SW Registered'))
-            .catch(err => console.log('SW Failed', err));
+        navigator.serviceWorker.register('/note/sw.js') // Full path use karein
+            .then(reg => console.log('SW Registered Successfully'))
+            .catch(err => console.log('SW Registration Failed', err));
     });
 }
         let sName = "Shared Seat", sType = "shared", seats = [];
