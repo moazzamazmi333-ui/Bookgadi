@@ -3,81 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookGadi | Best Outstation Taxi & Cab Service</title>
+    <title>BookGadi | Premium Outstation & One Way Cab Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1350&q=80');
-            background-size: cover; background-position: center;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
-        #mobile-menu { transition: all 0.3s ease-in-out; }
+        .hero-section {
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50">
 
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-extrabold text-yellow-500 tracking-tight">
-                Book<span class="text-gray-800">Gadi</span>
+    <nav class="glass-effect shadow-sm fixed w-full z-[100] top-0 border-b border-gray-100">
+        <div class="container mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-yellow-500 p-2 rounded-lg">
+                    <i class="fas fa-car text-white"></i>
+                </div>
+                <span class="text-2xl font-black text-slate-800 tracking-tight">Book<span class="text-yellow-500">Gadi</span></span>
             </div>
 
-            <div class="hidden md:flex space-x-8 items-center font-semibold">
-                <a href="#" class="hover:text-yellow-500">Home</a>
-                <a href="#services" class="hover:text-yellow-500">Services</a>
-                <a href="#pricing" class="hover:text-yellow-500">Rates</a>
-                <a href="tel:+919876543210" class="bg-yellow-500 text-white px-6 py-2 rounded-full hover:bg-black transition flex items-center">
-                    <i class="fas fa-phone-alt mr-2"></i> Call Now
+            <div class="hidden md:flex items-center space-x-8 font-medium text-slate-600">
+                <a href="#" class="hover:text-yellow-600 transition">Home</a>
+                <a href="#services" class="hover:text-yellow-600 transition">Services</a>
+                <a href="#rates" class="hover:text-yellow-600 transition">Rates</a>
+                <a href="tel:+911234567890" class="bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-yellow-500 transition shadow-lg">
+                    <i class="fas fa-phone-alt mr-2 text-sm"></i> Call Expert
                 </a>
             </div>
 
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-800 focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
+            <button id="menu-btn" class="md:hidden text-slate-800 text-2xl focus:outline-none">
+                <i class="fas fa-bars-staggered" id="menu-icon"></i>
+            </button>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-4 shadow-xl">
-            <a href="#" class="block font-semibold text-gray-700 hover:text-yellow-500">Home</a>
-            <a href="#services" class="block font-semibold text-gray-700 hover:text-yellow-500">Services</a>
-            <a href="#pricing" class="block font-semibold text-gray-700 hover:text-yellow-500">Rates</a>
-            <a href="tel:+919876543210" class="block w-full bg-yellow-500 text-white text-center py-3 rounded-lg font-bold">
-                Call: +91 98765 43210
-            </a>
+        <div id="mobile-menu" class="hidden fixed inset-0 bg-white z-[99] flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#rates" class="nav-link">Rates</a>
+            <a href="tel:+911234567890" class="text-yellow-600 underline">Call: +91 1234567890</a>
+            <button id="close-menu" class="absolute top-6 right-6 text-4xl">&times;</button>
         </div>
     </nav>
 
-    <section class="hero-bg min-h-[500px] flex items-center justify-center text-white text-center px-4">
-        <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-5xl font-bold mb-4">India's Most Trusted Taxi Service</h1>
-            <p class="text-lg mb-8 opacity-90">Safe, Clean, and Affordable Rides at your Doorstep.</p>
+    <section class="hero-section min-h-screen flex items-center pt-20 px-4">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
             
-            <div class="bg-white p-4 rounded-xl shadow-2xl text-gray-800 space-y-4 md:space-y-0 md:flex md:gap-2">
-                <input type="text" placeholder="Pickup City" class="w-full border p-3 rounded focus:ring-2 focus:ring-yellow-500 outline-none">
-                <input type="text" placeholder="Drop City" class="w-full border p-3 rounded focus:ring-2 focus:ring-yellow-500 outline-none">
-                <button class="w-full md:w-auto bg-yellow-500 text-white px-8 py-3 rounded font-bold hover:bg-black transition">BOOK</button>
+            <div class="text-white space-y-6">
+                <span class="bg-yellow-500 text-slate-900 px-4 py-1 rounded-full text-sm font-bold tracking-widest uppercase">Premium Taxi Service</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Fastest Way To Book <span class="text-yellow-500">One-Way</span> Cabs.</h1>
+                <p class="text-gray-300 text-lg max-w-md">Intercity travel made easy with certified drivers and transparent pricing starting at ₹10/km.</p>
+                <div class="flex space-x-4 pt-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-yellow-500"></i>
+                        <span>No Hidden Cost</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-yellow-500"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow-2xl space-y-6">
+                <h2 class="text-2xl font-bold text-slate-800">Book Your Ride</h2>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <i class="fas fa-location-dot absolute left-4 top-4 text-gray-400"></i>
+                        <input type="text" placeholder="Pickup Location" class="w-full bg-slate-50 border border-gray-200 p-4 pl-12 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-map-pin absolute left-4 top-4 text-gray-400"></i>
+                        <input type="text" placeholder="Drop Location" class="w-full bg-slate-50 border border-gray-200 p-4 pl-12 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none transition">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="date" class="bg-slate-50 border border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none">
+                        <select class="bg-slate-50 border border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none">
+                            <option>One Way</option>
+                            <option>Round Trip</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="w-full bg-yellow-500 text-slate-900 font-bold py-5 rounded-2xl hover:bg-slate-900 hover:text-white transition duration-300 shadow-lg uppercase tracking-wider">
+                    Check Fare & Book
+                </button>
             </div>
         </div>
     </section>
 
-    <a href="https://wa.me/919876543210" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-50 hover:scale-110 transition">
-        <i class="fab fa-whatsapp text-3xl"></i>
+    <section id="services" class="py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-12">Our Specialized Services</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-slate-50 hover:bg-yellow-50 transition cursor-default">
+                    <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Intercity Cabs</h3>
+                    <p class="text-gray-600">Comfortable outstation rides to any city across India with professional chauffeurs.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-slate-50 hover:bg-yellow-50 transition cursor-default border-2 border-yellow-200">
+                    <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Airport Pickup</h3>
+                    <p class="text-gray-600">On-time guaranteed airport transfers. No more waiting for expensive airport taxis.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-slate-50 hover:bg-yellow-50 transition cursor-default">
+                    <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Local Rentals</h3>
+                    <p class="text-gray-600">Rent a cab for 8hrs/80kms or 12hrs/120kms for city business or shopping trips.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/911234567890" class="fixed bottom-8 right-8 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-[100] animate-bounce">
+        <i class="fab fa-whatsapp text-4xl"></i>
     </a>
 
     <script>
-        const btn = document.getElementById('menu-btn');
-        const menu = document.getElementById('mobile-menu');
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden'); // Prevent scrolling when menu open
+        }
 
-        // Close menu when clicking a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
         });
     </script>
 
