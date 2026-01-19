@@ -3,145 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookGadi | Best Outstation Taxi & Cab Service in India</title>
-    <meta name="description" content="Book affordable outstation cabs, one-way taxis, and airport transfers. Best rates guaranteed with professional drivers.">
+    <title>BookGadi | Best Outstation Taxi & Cab Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; background-position: center;
         }
+        #mobile-menu { transition: all 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-gray-50">
 
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-yellow-500">Book<span class="text-gray-800">Gadi</span></div>
-            <div class="hidden md:flex space-x-8 font-medium">
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-extrabold text-yellow-500 tracking-tight">
+                Book<span class="text-gray-800">Gadi</span>
+            </div>
+
+            <div class="hidden md:flex space-x-8 items-center font-semibold">
                 <a href="#" class="hover:text-yellow-500">Home</a>
                 <a href="#services" class="hover:text-yellow-500">Services</a>
-                <a href="#pricing" class="hover:text-yellow-500">Pricing</a>
-                <a href="tel:+919876543210" class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">Call Now</a>
+                <a href="#pricing" class="hover:text-yellow-500">Rates</a>
+                <a href="tel:+919876543210" class="bg-yellow-500 text-white px-6 py-2 rounded-full hover:bg-black transition flex items-center">
+                    <i class="fas fa-phone-alt mr-2"></i> Call Now
+                </a>
             </div>
+
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-800 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-4 shadow-xl">
+            <a href="#" class="block font-semibold text-gray-700 hover:text-yellow-500">Home</a>
+            <a href="#services" class="block font-semibold text-gray-700 hover:text-yellow-500">Services</a>
+            <a href="#pricing" class="block font-semibold text-gray-700 hover:text-yellow-500">Rates</a>
+            <a href="tel:+919876543210" class="block w-full bg-yellow-500 text-white text-center py-3 rounded-lg font-bold">
+                Call: +91 98765 43210
+            </a>
         </div>
     </nav>
 
-    <section class="hero-bg h-[600px] flex items-center justify-center text-white text-center px-4">
-        <div class="max-w-4xl w-full">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Reliable Outstation Taxi Service</h1>
-            <p class="text-xl mb-8">Lowest Fares for One-Way & Round Trips. Professional Drivers.</p>
+    <section class="hero-bg min-h-[500px] flex items-center justify-center text-white text-center px-4">
+        <div class="max-w-3xl">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">India's Most Trusted Taxi Service</h1>
+            <p class="text-lg mb-8 opacity-90">Safe, Clean, and Affordable Rides at your Doorstep.</p>
             
-            <div class="bg-white p-6 rounded-lg shadow-2xl text-gray-800 grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-semibold text-left">Pickup City</label>
-                    <input type="text" placeholder="Enter City" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-left">Drop City</label>
-                    <input type="text" placeholder="Enter City" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-left">Pickup Date</label>
-                    <input type="date" class="w-full border p-2 rounded mt-1 focus:ring-2 focus:ring-yellow-500 outline-none">
-                </div>
-                <div class="flex items-end">
-                    <button class="w-full bg-yellow-500 text-white font-bold py-3 rounded hover:bg-yellow-600 transition uppercase">Search Fare</button>
-                </div>
+            <div class="bg-white p-4 rounded-xl shadow-2xl text-gray-800 space-y-4 md:space-y-0 md:flex md:gap-2">
+                <input type="text" placeholder="Pickup City" class="w-full border p-3 rounded focus:ring-2 focus:ring-yellow-500 outline-none">
+                <input type="text" placeholder="Drop City" class="w-full border p-3 rounded focus:ring-2 focus:ring-yellow-500 outline-none">
+                <button class="w-full md:w-auto bg-yellow-500 text-white px-8 py-3 rounded font-bold hover:bg-black transition">BOOK</button>
             </div>
         </div>
     </section>
 
-    <section id="services" class="py-20 container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 uppercase tracking-wide">Our Premium Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
-                <i class="fas fa-road text-4xl text-yellow-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Outstation Cabs</h3>
-                <p class="text-gray-600">Inter-city travel with round-trip or one-way options at best rates.</p>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
-                <i class="fas fa-plane-departure text-4xl text-yellow-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Airport Transfers</h3>
-                <p class="text-gray-600">Timely pickup and drop to all major airports across the country.</p>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg border-b-4 border-yellow-500 text-center">
-                <i class="fas fa-city text-4xl text-yellow-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Local Rentals</h3>
-                <p class="text-gray-600">Half-day or full-day taxi service for city tours and shopping.</p>
-            </div>
-        </div>
-    </section>
+    <a href="https://wa.me/919876543210" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-50 hover:scale-110 transition">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
 
-    <section id="pricing" class="bg-gray-100 py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Transparent Pricing</h2>
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="w-full text-left border-collapse">
-                    <thead class="bg-yellow-500 text-white">
-                        <tr>
-                            <th class="p-4">Car Type</th>
-                            <th class="p-4">Capacity</th>
-                            <th class="p-4">Price Per KM</th>
-                            <th class="p-4">Best For</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-700">
-                        <tr class="border-b">
-                            <td class="p-4 font-semibold">Economy (Hatchback)</td>
-                            <td class="p-4">4+1 Seater</td>
-                            <td class="p-4">₹10/km</td>
-                            <td class="p-4">Short budget trips</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="p-4 font-semibold">Sedan (Dzire/Etios)</td>
-                            <td class="p-4">4+1 Seater</td>
-                            <td class="p-4">₹12/km</td>
-                            <td class="p-4">Family comfort travel</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-semibold">SUV (Innova/Ertiga)</td>
-                            <td class="p-4">6+1 Seater</td>
-                            <td class="p-4">₹16/km</td>
-                            <td class="p-4">Group/Long journeys</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
 
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-                <h4 class="text-xl font-bold mb-4 text-yellow-500">BookMyGadi</h4>
-                <p class="text-gray-400">Your trusted travel partner for safe and affordable taxi rides across the nation. Available 24/7.</p>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-4">Quick Links</h4>
-                <ul class="text-gray-400 space-y-2">
-                    <li><a href="#" class="hover:text-yellow-500">About Us</a></li>
-                    <li><a href="#" class="hover:text-yellow-500">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-yellow-500">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-4">Contact Us</h4>
-                <p class="text-gray-400"><i class="fas fa-phone mr-2"></i> +91 96511 91446</p>
-                <p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> suppory@bookgadi.com</p>
-                <div class="flex space-x-4 mt-4 text-xl">
-                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-yellow-500"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="text-center mt-10 border-t border-gray-800 pt-6 text-gray-500">
-            &copy; 2026 BookGadi. All Rights Reserved.
-        </div>
-    </footer>
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
 
 </body>
 </html>
