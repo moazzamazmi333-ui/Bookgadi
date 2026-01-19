@@ -1,122 +1,268 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#002b5c">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BookGadi Selection App</title>
-    <style>
-        :root { --primary: #002b5c; --secondary: #25D366; --accent: #ff9800; --bg: #f2f5f8; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); padding-bottom: 120px; }
-        .header { background: var(--primary); color: white; padding: 15px; text-align: center; border-radius: 0 0 30px 30px; }
-        .container { padding: 15px; max-width: 500px; margin: auto; }
-        .box { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: -20px; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { font-size: 11px; font-weight: bold; color: #666; display: block; margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; }
-        
-        .seat-container { background: white; padding: 20px; border-radius: 20px; margin-top: 15px; border: 1px solid #ddd; text-align: center; }
-        .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 200px; margin: auto; }
-        .seat { width: 45px; height: 45px; border: 2px solid #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; font-weight: bold; }
-        .seat.selected { background: var(--secondary); color: white; border-color: #128C7E; }
-        .driver { background: #333; color: white; border: none; cursor: default; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BookGadi Selection App</title>
 
-        .card { background: white; padding: 12px; border-radius: 12px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border: 2px solid transparent; cursor: pointer; }
-        .card.active { border-color: var(--accent); background: #fff9f0; }
-        .price-input { width: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-weight: bold; }
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#002b5c">
 
-        .admin-box { background: #e7f3ff; padding: 15px; border-radius: 15px; border: 2px solid var(--primary); margin-top: 15px; }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
-        .btn { background: var(--secondary); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; }
-    </style>
+  <style>
+    :root { --primary:#002b5c; --secondary:#25D366; --accent:#ff9800; --bg:#f2f5f8; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+    body { background:var(--bg); padding-bottom:120px; }
+    .header { background:var(--primary); color:#fff; padding:15px; text-align:center; border-radius:0 0 30px 30px; }
+    .container { padding:15px; max-width:500px; margin:auto; }
+    .box { background:#fff; padding:20px; border-radius:20px; box-shadow:0 5px 15px rgba(0,0,0,.1); margin-top:-20px; }
+    .input-group { margin-bottom:15px; }
+    .input-group label { font-size:11px; font-weight:700; color:#666; display:block; margin-bottom:5px; }
+    .input-group input { width:100%; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:15px; }
+
+    .seat-container { background:#fff; padding:20px; border-radius:20px; margin-top:15px; border:1px solid #ddd; text-align:center; }
+    .car-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:200px; margin:auto; }
+    .seat { width:45px; height:45px; border:2px solid #ddd; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer; font-weight:700; user-select:none; }
+    .seat.selected { background:var(--secondary); color:#fff; border-color:#128C7E; }
+    .driver { background:#333; color:#fff; border:none; cursor:default; }
+
+    .card { background:#fff; padding:12px; border-radius:12px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; border:2px solid transparent; cursor:pointer; }
+    .card.active { border-color:var(--accent); background:#fff9f0; }
+    .price-input { width:80px; padding:8px; border:1px solid #ccc; border-radius:8px; text-align:center; font-weight:700; }
+
+    .admin-box { background:#e7f3ff; padding:15px; border-radius:15px; border:2px solid var(--primary); margin-top:15px; }
+    .footer { position:fixed; bottom:0; left:0; right:0; background:#fff; padding:15px; box-shadow:0 -5px 15px rgba(0,0,0,.1); }
+    .btn { background:var(--secondary); color:#fff; border:none; width:100%; padding:16px; border-radius:12px; font-size:18px; font-weight:800; cursor:pointer; }
+
+    /* POPUP */
+    #autoPopup{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.65);
+      display:none;
+      align-items:center; justify-content:center;
+      z-index:999999;
+      padding:14px;
+    }
+    #autoPopup .popupCard{
+      width:min(420px,92vw);
+      background:#fff;
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    #autoPopup .topbar{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+    }
+    #autoPopup h3{ margin:0; font-size:18px; color:#111; }
+    #autoPopup p{ margin:12px 0 14px; color:#334155; font-size:14px; line-height:1.5; }
+    #autoPopup .closeBtn{
+      border:none;background:#f3f4f6;color:#111;
+      width:34px;height:34px;border-radius:10px;
+      cursor:pointer;font-size:18px;font-weight:800;
+    }
+    #autoPopup .installBtn{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:var(--primary);
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+      margin-bottom:10px;
+      display:none;
+    }
+    #autoPopup .okBtn{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:#25D366;
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="header"><h1>BookGadi.com</h1><p>Manual Booking App</p></div>
-    <div class="container">
-        <div class="box">
-            <div style="display:flex; gap:10px">
-                <div class="input-group" style="flex:1"><label>CUSTOMER NAME</label><input type="text" id="cName" placeholder="Name"></div>
-                <div class="input-group" style="flex:1"><label>CUSTOMER MOBILE</label><input type="tel" id="cMobile" placeholder="Mobile"></div>
-            </div>
-            
-            <div class="input-group"><label>KAHAN SE (PICKUP)</label><input type="text" id="pickup" placeholder="Pickup Location"></div>
-            <div class="input-group"><label>KAHAN TAK (DROP)</label><input type="text" id="drop" placeholder="Drop Destination"></div>
-            
-            <div style="display:flex; gap:10px">
-                <div class="input-group" style="flex:1"><label>DATE</label><input type="date" id="dDate"></div>
-                <div class="input-group" style="flex:1"><label>TIME</label><input type="time" id="dTime"></div>
-            </div>
-        </div>
+  <div class="header">
+    <h1>BookGadi.com</h1>
+    <p>Manual Booking App</p>
+  </div>
 
-        <div class="seat-container">
-            <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; color: var(--primary);">SELECT CAR SEATS</p>
-            <div class="car-grid">
-                <div class="seat" onclick="ts('S1',this)">S1</div><div></div><div class="seat driver">D</div>
-                <div class="seat" onclick="ts('M1',this)">M1</div><div class="seat" onclick="ts('M2',this)">M2</div><div class="seat" onclick="ts('M3',this)">M3</div>
-                <div class="seat" onclick="ts('B1',this)">B1</div><div class="seat" onclick="ts('B2',this)">B2</div><div></div>
-            </div>
+  <div class="container">
+    <div class="box">
+      <div style="display:flex; gap:10px">
+        <div class="input-group" style="flex:1">
+          <label>CUSTOMER NAME</label>
+          <input type="text" id="cName" placeholder="Name">
         </div>
-
-        <h3 style="margin:20px 0 10px; color:var(--primary); font-size: 16px;">SELECT SERVICE</h3>
-        <div class="card active" onclick="sel('Shared Seat','shared',this)"><span>💺 Shared Seat</span><input type="number" id="p_shared" class="price-input" placeholder="₹"></div>
-        <div class="card" onclick="sel('Airport Transfer','airport',this)"><span>✈️ Airport Transfer</span><input type="number" id="p_airport" class="price-input" placeholder="₹"></div>
-        <div class="card" onclick="sel('One Way Full','oneway',this)"><span>🚗 One Way Full</span><input type="number" id="p_oneway" class="price-input" placeholder="₹"></div>
-        <div class="card" onclick="sel('Round Trip','round',this)"><span>🔄 Round Trip</span><input type="number" id="p_round" class="price-input" placeholder="₹"></div>
-
-        <div class="admin-box">
-            <label style="font-size:11px; font-weight:bold; color: var(--primary);">SEND TO (Driver WHATSAPP NO.)</label>
-            <input type="tel" id="sendTo" value="9651191446" style="width:100%; padding:10px; border-radius:8px; border:1px solid #002b5c; font-weight:bold; margin-top:5px;">
+        <div class="input-group" style="flex:1">
+          <label>CUSTOMER MOBILE</label>
+          <input type="tel" id="cMobile" placeholder="Mobile">
         </div>
+      </div>
+
+      <div class="input-group">
+        <label>KAHAN SE (PICKUP)</label>
+        <input type="text" id="pickup" placeholder="Pickup Location">
+      </div>
+
+      <div class="input-group">
+        <label>KAHAN TAK (DROP)</label>
+        <input type="text" id="drop" placeholder="Drop Destination">
+      </div>
+
+      <div style="display:flex; gap:10px">
+        <div class="input-group" style="flex:1">
+          <label>DATE</label><input type="date" id="dDate">
+        </div>
+        <div class="input-group" style="flex:1">
+          <label>TIME</label><input type="time" id="dTime">
+        </div>
+      </div>
     </div>
 
-    <div class="footer"><button class="btn" onclick="send()">SEND TO WHATSAPP</button></div>
+    <div class="seat-container">
+      <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; color: var(--primary);">
+        SELECT CAR SEATS
+      </p>
 
-    <script>
-       
-        let sName = "Shared Seat", sType = "shared", seats = [];
-        function sel(n, t, e) {
-            sName = n; sType = t;
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            e.classList.add('active');
-        }
-        function ts(s, e) {
-            if(e.classList.contains('selected')) {
-                e.classList.remove('selected');
-                seats = seats.filter(i => i !== s);
-            } else {
-                e.classList.add('selected');
-                seats.push(s);
-            }
-        }
-        function send() {
-            const num = document.getElementById('sendTo').value;
-            const name = document.getElementById('cName').value;
-            const mob = document.getElementById('cMobile').value;
-            const pLoc = document.getElementById('pickup').value;
-            const dLoc = document.getElementById('drop').value;
-            const date = document.getElementById('dDate').value;
-            const time = document.getElementById('dTime').value;
-            const price = document.getElementById('p_'+sType).value;
+      <div class="car-grid">
+        <div class="seat" onclick="ts('S1',this)">S1</div><div></div><div class="seat driver">D</div>
+        <div class="seat" onclick="ts('M1',this)">M1</div><div class="seat" onclick="ts('M2',this)">M2</div><div class="seat" onclick="ts('M3',this)">M3</div>
+        <div class="seat" onclick="ts('B1',this)">B1</div><div class="seat" onclick="ts('B2',this)">B2</div><div></div>
+      </div>
+    </div>
 
-            if(!name || !price || !num || !pLoc || !dLoc) { alert("Sari details bharein!"); return; }
+    <h3 style="margin:20px 0 10px; color:var(--primary); font-size: 16px;">SELECT SERVICE</h3>
+    <div class="card active" onclick="sel('Shared Seat','shared',this)"><span>💺 Shared Seat</span><input type="number" id="p_shared" class="price-input" placeholder="₹"></div>
+    <div class="card" onclick="sel('Airport Transfer','airport',this)"><span>✈️ Airport Transfer</span><input type="number" id="p_airport" class="price-input" placeholder="₹"></div>
+    <div class="card" onclick="sel('One Way Full','oneway',this)"><span>🚗 One Way Full</span><input type="number" id="p_oneway" class="price-input" placeholder="₹"></div>
+    <div class="card" onclick="sel('Round Trip','round',this)"><span>🔄 Round Trip</span><input type="number" id="p_round" class="price-input" placeholder="₹"></div>
 
-            let msg = `*BOOKING CONFIRMED*%0A-----------------------%0A`;
-            msg += `👤 *Customer:* ${name}%0A📞 *Mobile:* ${mob}%0A✅ *Pickup:* ${pLoc}%0A✅ *Drop:* ${dLoc}%0A✅ *Date:* ${date}%0A✅ *Time:* ${time}%0A✅ *Amount:* ₹${price}%0A✅ *Service:* ${sName}%0A`;
-            
-            if(seats.length > 0) msg += `💺 *Seats:* ${seats.join(', ')}%0A`;
-           // if(sType === 'airport') msg += `%0A⚠️ *Note:* Please attach ticket photo!%0A`;
-            
-            msg += `-----------------------%0A*BookGadi.com*`;
+    <div class="admin-box">
+      <label style="font-size:11px; font-weight:bold; color: var(--primary);">SEND TO (Driver WHATSAPP NO.)</label>
+      <input type="tel" id="sendTo" value="9651191446" style="width:100%; padding:10px; border-radius:8px; border:1px solid #002b5c; font-weight:bold; margin-top:5px;">
+    </div>
+  </div>
 
-            window.location.href = "https://wa.me/91" + num + "?text=" + msg;
-        }
-        if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/note/sw.js', { scope: '/note/' })
-    .then(() => console.log("Ready!"))
-    .catch(err => console.log("Error:", err));
+  <div class="footer">
+    <button class="btn" onclick="send()">SEND TO WHATSAPP</button>
+  </div>
+
+  <!-- AUTO POPUP -->
+  <div id="autoPopup">
+    <div class="popupCard">
+      <div class="topbar">
+        <h3>Install BookGadi App</h3>
+        <button class="closeBtn" onclick="closePopup()">×</button>
+      </div>
+
+      <p>
+        📌 Aap is app ko apne mobile me install kar sakte hain.<br>
+        Install karne ke baad fast open hogi aur browser bar nahi aayega.
+      </p>
+
+      <button id="installBtn" class="installBtn">Install App</button>
+      <button class="okBtn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    let sName = "Shared Seat", sType = "shared", seats = [];
+
+    function sel(n, t, e) {
+      sName = n; sType = t;
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+      e.classList.add('active');
     }
-    </script>
+
+    function ts(s, e) {
+      if (e.classList.contains('selected')) {
+        e.classList.remove('selected');
+        seats = seats.filter(i => i !== s);
+      } else {
+        e.classList.add('selected');
+        seats.push(s);
+      }
+    }
+
+    function send() {
+      const num = document.getElementById('sendTo').value.trim();
+      const name = document.getElementById('cName').value.trim();
+      const mob = document.getElementById('cMobile').value.trim();
+      const pLoc = document.getElementById('pickup').value.trim();
+      const dLoc = document.getElementById('drop').value.trim();
+      const date = document.getElementById('dDate').value;
+      const time = document.getElementById('dTime').value;
+      const price = document.getElementById('p_' + sType).value;
+
+      if (!name || !price || !num || !pLoc || !dLoc) {
+        alert("Sari details bharein!");
+        return;
+      }
+
+      let msg = `*BOOKING CONFIRMED*%0A-----------------------%0A`;
+      msg += `👤 *Customer:* ${name}%0A📞 *Mobile:* ${mob}%0A✅ *Pickup:* ${pLoc}%0A✅ *Drop:* ${dLoc}%0A✅ *Date:* ${date}%0A✅ *Time:* ${time}%0A✅ *Amount:* ₹${price}%0A✅ *Service:* ${sName}%0A`;
+
+      if (seats.length > 0) msg += `💺 *Seats:* ${seats.join(', ')}%0A`;
+
+      msg += `-----------------------%0A*BookGadi.com*`;
+
+      window.location.href = "https://wa.me/91" + num + "?text=" + msg;
+    }
+
+    /* ===========================
+       PWA INSTALL + AUTO POPUP
+    =========================== */
+
+    const popup = document.getElementById("autoPopup");
+    const installBtn = document.getElementById("installBtn");
+
+    // Popup close
+    function closePopup() {
+      popup.style.display = "none";
+      localStorage.setItem("bookgadi_popup_seen", "yes"); // only once
+    }
+
+    // Auto show popup only once
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("bookgadi_popup_seen") !== "yes") {
+        popup.style.display = "flex";
+      }
+    });
+
+    // Register SW (correct path for same folder)
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => console.log("Service Worker Ready!"))
+        .catch(err => console.log("SW Error:", err));
+    }
+
+    // Install prompt
+    let deferredPrompt = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = "block";
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.style.display = "none";
+      closePopup();
+    });
+
+    window.addEventListener("appinstalled", () => {
+      installBtn.style.display = "none";
+      closePopup();
+    });
+  </script>
+
 </body>
 </html>
