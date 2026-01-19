@@ -1,16 +1,21 @@
 {
   "name": "BookGadi Note",
-  "short_name": "BookNote",
-  "start_url": "/note/index.html",
+  "short_name": "Note",
+  "start_url": "/note/",
   "scope": "/note/",
   "display": "standalone",
-  "background_color": "#002b5c",
-  "theme_color": "#002b5c",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
   "icons": [
     {
       "src": "https://static.wixstatic.com/media/843689_5136ef824c644479aa524cfe04cf1cf7~mv2.jpg",
+      "sizes": "192x192",
+      "type": "image/jpg"
+    },
+    {
+      "src": "https://static.wixstatic.com/media/843689_5136ef824c644479aa524cfe04cf1cf7~mv2.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpg"
     }
   ]
 }
