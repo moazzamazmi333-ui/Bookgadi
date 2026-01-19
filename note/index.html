@@ -74,14 +74,7 @@
     <div class="footer"><button class="btn" onclick="send()">SEND TO WHATSAPP</button></div>
 
     <script>
-        // Service Worker Register
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/note/sw.js') // Full path use karein
-            .then(reg => console.log('SW Registered Successfully'))
-            .catch(err => console.log('SW Registration Failed', err));
-    });
-}
+       
         let sName = "Shared Seat", sType = "shared", seats = [];
         function sel(n, t, e) {
             sName = n; sType = t;
@@ -119,6 +112,13 @@ if ('serviceWorker' in navigator) {
 
             window.location.href = "https://wa.me/91" + num + "?text=" + msg;
         }
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/note/sw.js')
+            .then(reg => console.log('SW Registered Successfully!'))
+            .catch(err => console.log('SW Registration Failed', err));
+    });
+}
     </script>
 </body>
 </html>
