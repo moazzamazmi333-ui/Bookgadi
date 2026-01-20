@@ -32,7 +32,6 @@
         {"@type": "AdministrativeArea", "name": "Mubarakpur"},
         {"@type": "AdministrativeArea", "name": "Civil Lines"},
         {"@type": "AdministrativeArea", "name": "Phoolpur"},
-        // NEW NAME
         {"@type": "AdministrativeArea", "name": "Sarai Meer"},
         {"@type": "AdministrativeArea", "name": "Chhaun"},
         {"@type": "AdministrativeArea", "name": "Nandaon Market"},
@@ -62,7 +61,6 @@
         {"@type": "AdministrativeArea", "name": "Palthi"},
         {"@type": "AdministrativeArea", "name": "Ram Garh"},
         {"@type": "AdministrativeArea", "name": "Fulwaria Bazar"},
-        /// NEW AND
         {"@type": "AdministrativeArea", "name": "Lalganj"},
         {"@type": "AdministrativeArea", "name": "Sagri"},
         {"@type": "AdministrativeArea", "name": "Mehnagar"},
@@ -93,6 +91,7 @@
             <div class="text-2xl font-extrabold tracking-tighter italic">Book<span class="text-yellow-500">Gadi</span></div>
             <div class="hidden lg:flex items-center space-x-6 font-bold text-xs uppercase">
                 <a href="#home" class="hover:text-yellow-500 transition">Home</a>
+                <a href="airport.html" class="text-yellow-600 border-b-2 border-yellow-500 pb-1">Airport Taxi ✈️</a>
                 <a href="#services" class="hover:text-yellow-500 transition">Services</a>
                 <a href="#routes" class="hover:text-yellow-500 transition">Routes</a>
                 <a href="tel:+919651191446" class="bg-slate-900 text-white px-5 py-2 rounded-full hover:bg-yellow-500 hover:text-slate-900 transition shadow-md">
@@ -103,18 +102,29 @@
         </div>
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-t p-4 space-y-3 shadow-xl text-center font-bold">
             <a href="#home" class="block">Home</a>
+            <a href="airport.html" class="block text-yellow-600">Airport Taxi (NRI Special) ✈️</a>
             <a href="#services" class="block">Services</a>
             <a href="#routes" class="block">Routes</a>
             <a href="tel:+919651191446" class="block bg-yellow-500 py-2 rounded-lg">Call Now</a>
         </div>
     </nav>
-
     <section id="home" class="hero-bg min-h-[85vh] flex items-center pt-16 px-4">
         <div class="container mx-auto grid lg:grid-cols-2 gap-8">
             <div class="text-white space-y-4 self-center">
                 <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Premium <span class="text-yellow-500">One-Way</span> Cab From Lucknow.</h1>
                 <p class="text-gray-300 text-md italic border-l-4 border-yellow-500 pl-4">Fastest travel via Purvanchal Expressway.</p>
+                
+                <div class="mt-6 bg-yellow-500/10 border border-yellow-500/50 p-4 rounded-2xl flex items-center gap-4 max-w-md backdrop-blur-sm">
+                    <div class="bg-yellow-500 text-slate-900 h-10 w-10 rounded-full flex items-center justify-center shrink-0">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold uppercase text-yellow-500">Coming from Gulf?</p>
+                        <a href="airport.html" class="text-sm font-black underline hover:text-yellow-400">Special Pickup for Azamgarh & Mau NRIs →</a>
+                    </div>
+                </div>
             </div>
+
             <div class="bg-white rounded-3xl p-6 shadow-2xl border-2 border-yellow-500/20 self-center">
                 <h2 class="text-xl font-black mb-4 text-center uppercase">Book Your Taxi</h2>
                 <div class="space-y-3">
@@ -139,7 +149,11 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-car text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">Sedan</h3><p class="text-xs text-gray-500">4+1 Seater AC</p></div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-shuttle-van text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">SUV</h3><p class="text-xs text-gray-500">6+1 Seater AC</p></div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border service-card"><i class="fas fa-plane text-3xl text-yellow-500 mb-3"></i><h3 class="font-bold">Airport</h3><p class="text-xs text-gray-500">24/7 Pickup</p></div>
+                <a href="airport.html" class="bg-white p-6 rounded-2xl shadow-sm border service-card block">
+                    <i class="fas fa-plane text-3xl text-yellow-500 mb-3"></i>
+                    <h3 class="font-bold">Airport Pickup</h3>
+                    <p class="text-xs text-blue-600 font-bold underline">NRI Special Service →</p>
+                </a>
             </div>
         </div>
     </section>
@@ -185,89 +199,6 @@
         </div>
     </section>
 
-    <section class="py-10 bg-white border-t">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-2xl font-black text-slate-900 uppercase italic mb-6">Local Areas in <span class="text-yellow-500">Azamgarh</span></h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-w-6xl mx-auto text-[10px] md:text-xs">
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Fulwaria Bazar</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Sidhari</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Mubarakpur</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Civil Lines</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Phoolpur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Ram Garh</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Phoolpur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Sarai Meer</div>
-               <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Sanjarpur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Phariha</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Mohammadpur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Nizamabad</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Kotila</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Teunga</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Chhaun</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Nandaon</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Israuli</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Badhariya</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Chhittepur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Kaudiya</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Mirzapur Block</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Beenapara</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Didarganj</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Bilar Mau</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Khan Jahanpur</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Pawai Bazar</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Gondhana</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Ambari</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Mahul</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Ahiraula</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Sikraor</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Bhormau</div>
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Palthi</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Lalganj</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Sagri</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Mehnagar</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Itura</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Bilariaganj</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Jiyanpur</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Burhanpur</div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold uppercase shadow-sm hover:bg-yellow-50 transition cursor-default">Atraulia</div>
-            </div>
-            <p class="text-gray-400 text-[10px] mt-6 italic text-center">*We provide doorstep pickup across all areas in Azamgarh District.</p>
-        </div>
-    </section>
-
-    <section class="py-10 bg-slate-900 text-white">
-        <div class="container mx-auto px-6 max-w-2xl text-left">
-            <h3 class="text-xl font-black mb-6 text-center uppercase italic">FAQ</h3>
-            <div class="space-y-2">
-                <details class="bg-slate-800 p-4 rounded-xl cursor-pointer"><summary class="font-bold text-sm">Airport Pickup?</summary><p class="text-xs text-slate-400 mt-2">Yes, 24/7 from LKO Airport.</p></details>
-                <details class="bg-slate-800 p-4 rounded-xl cursor-pointer"><summary class="font-bold text-sm">Hidden Charges?</summary><p class="text-xs text-slate-400 mt-2">No. Toll/Parking extra as per actuals.</p></details>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-12 bg-slate-900 text-white border-t border-slate-800">
-        <div class="container mx-auto px-4 text-left">
-            <h2 class="text-3xl font-black text-center uppercase italic mb-8">Contact <span class="text-yellow-500">Us</span></h2>
-            <div class="grid lg:grid-cols-2 gap-8">
-                <div class="space-y-4 text-sm">
-                    <div class="flex items-center space-x-4"><i class="fas fa-phone-alt text-yellow-500"></i><span>+91 96511 91446</span></div>
-                    <div class="flex items-center space-x-4"><i class="fas fa-map-marker-alt text-yellow-500"></i><span>Fulwariya, Azamgarh, UP</span></div>
-                </div>
-                <div class="h-64 rounded-2xl overflow-hidden shadow-xl border-2 border-slate-700">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114543.51817757913!2d83.10915338780287!3d26.050352523277085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991a0349e5d4481%3A0xc664670054d5e895!2sAzamgarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-black text-white py-6 text-center border-t border-slate-800">
-        <p class="text-[10px] text-gray-500 uppercase tracking-widest text-center">© 2026 BookGadi India | Lucknow - Azamgarh - Varanasi</p>
-    </footer>
-
-    <a href="https://wa.me/919651191446" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[200] animate-bounce">
-        <i class="fab fa-whatsapp text-3xl"></i>
-    </a>
-
     <script>
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -281,5 +212,9 @@
             window.open(`https://wa.me/919651191446?text=${msg}`, '_blank');
         }
     </script>
+    
+    <a href="https://wa.me/919651191446" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[200] animate-bounce">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
 </body>
 </html>
