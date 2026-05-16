@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <style>
-  :root { --primary:#2563eb; --danger:#ef4444; --dark:#1e293b; }
+  :root { --primary:#2563eb; --danger:#ef4444; --dark:#1e293b; --success:#10b981; }
   html,body{margin:0;padding:0;height:100%;font-family:sans-serif;background:#fff;display:flex;flex-direction:column;overflow:hidden;}
   #mainCard{width:100%;background:#fff;padding:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:20;border-bottom:1px solid #eee;}
   .container{width:92%;margin:0 auto;}
@@ -21,7 +21,7 @@
   .stat-item{flex:1;}
   .stat-item small{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;}
   .stat-item b{display:block;font-size:13px;color:var(--dark);margin-top:2px;}
-  #driverAddress{background:#f8fafc;color:var(--danger);font-size:10px;font-weight:700;padding:6px;border-radius:6px;margin-top:8px;border:1px solid #e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #driverAddress{background:#f8fafc;color:var(--danger);font-size:10px;font-weight:700;padding:6px;border-radius:6px;margin-top:8px;border:1px solid #e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:0.3s;}
   #map-wrapper{flex:1;width:100%;position:relative;}
   #map{width:100%;height:100%;}
   .map-controls{position:absolute;left:10px;bottom:30px;display:flex;flex-direction:column;gap:10px;z-index:100;}
@@ -61,7 +61,6 @@
 
 <body>
 
-<!-- ✅ ID LOCK SCREEN -->
 <div id="blockOverlay">
   <div id="accessBox">
     <div class="loader"></div>
@@ -85,7 +84,7 @@
       </div>
       <div style="text-align:right;">
         <small style="font-size:9px;font-weight:700;">SPEED</small>
-        <b id="speed" style="display:block;font-size:16px;color:var(--primary);">0</b>
+        <b id="speed" style="display:block;font-size:16px;color:var(--primary);">0 km/h</b>
       </div>
     </div>
 
@@ -112,8 +111,7 @@
 /* ===========================
    ✅ ID LOCK SYSTEM
 =========================== */
-const CSV_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=1569920623&single=true&output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTltU6LSbArrr2O_xNGwpGPVlGyjo7i3bL4cN0KgdGGkJijj1l0z1NR6P2mhn02rWDeyqdQha4OoEQc/pub?gid=1569920623&single=true&output=csv";
 
 const params = new URLSearchParams(window.location.search);
 const pageId = params.get("id");
@@ -137,13 +135,16 @@ async function checkAccess(){
 
     let valid = false;
     rows.forEach(row=>{
-      const sheetId = (row[1] || "").trim(); // Column B = ID
-      if(sheetId === pageId) valid = true;
+      if(row[1]) {
+        const sheetId = row[1].replace(/[\r\n]/g, "").trim(); // Fix Line Break Bug
+        if(sheetId === pageId.trim()) valid = true;
+      }
     });
 
     if(valid){
-      document.getElementById("blockOverlay").remove();
-      start(); // ✅ tracker start ONLY after valid ID
+      const overlay = document.getElementById("blockOverlay");
+      if(overlay) overlay.remove();
+      start(); 
       setTimeout(()=> window.dispatchEvent(new Event("resize")), 500);
     }else{
       showError("Invalid ID", "Access not allowed.");
@@ -173,10 +174,22 @@ let clat, clng, ulat, ulng, DEVICE_ID, followVehicle=true;
 
 function openModal(src){ if(!src) return; document.getElementById("zoomedImg").src=src; document.getElementById("photoModal").style.display="flex"; }
 function closeModal(){ document.getElementById("photoModal").style.display="none"; }
-function setStatus(msg){ document.getElementById("driverAddress").innerText="📍 "+msg; }
+
+function setStatus(msg, isError = false){ 
+  const el = document.getElementById("driverAddress");
+  el.innerText = "📍 " + msg;
+  if(isError) {
+    el.style.background = "#fef2f2";
+    el.style.color = "#ef4444";
+  } else {
+    el.style.background = "#f0fdf4";
+    el.style.color = "#16a34a";
+  }
+}
 
 function loadGoogleMaps(){
   return new Promise((resolve,reject)=>{
+    if(window.google && window.google.maps) { resolve(); return; }
     const s=document.createElement("script");
     s.src=`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=geometry,places`;
     s.async=true; s.defer=true;
@@ -190,20 +203,16 @@ function initMap(){
   map=new google.maps.Map(document.getElementById("map"),{
     center:{lat:26.85,lng:80.95},
     zoom:15,
-
-    // ✅ WHITE MAP THEME BACK
+    disableDefaultUI: true,
     styles:[
       { elementType:"geometry", stylers:[{color:"#ffffff"}] },
       { featureType:"road", elementType:"geometry", stylers:[{color:"#f1f5f9"}] },
       { featureType:"road", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
       { featureType:"road", elementType:"labels.text.stroke", stylers:[{color:"#ffffff"}] },
-
       { featureType:"poi", elementType:"geometry", stylers:[{color:"#ffffff"}] },
       { featureType:"poi.park", elementType:"geometry", stylers:[{color:"#e2e8f0"}] },
-
       { featureType:"water", elementType:"geometry", stylers:[{color:"#dbeafe"}] },
       { featureType:"water", elementType:"labels.text.fill", stylers:[{color:"#0f172a"}] },
-
       { featureType:"transit", elementType:"geometry", stylers:[{color:"#ffffff"}] },
       { featureType:"administrative", elementType:"geometry.stroke", stylers:[{color:"#e2e8f0"}] }
     ]
@@ -220,7 +229,11 @@ function initMap(){
   carMarker=new google.maps.Marker({
     map,
     position:{lat:26.85,lng:80.95},
-    icon:{ url:CAR_ICON_URL, scaledSize:new google.maps.Size(46,46), anchor:new google.maps.Point(23,23) },
+    icon:{ 
+      url: CAR_ICON_URL, 
+      scaledSize: new google.maps.Size(40,40), 
+      anchor: new google.maps.Point(20,20)
+    },
     optimized:false,
     zIndex:9999
   });
@@ -228,7 +241,6 @@ function initMap(){
   loadSheet();
   startUserLocation();
 }
-
 
 function startUserLocation(){
   if(navigator.geolocation){
@@ -256,7 +268,13 @@ async function loadVehicle(){
     });
     const j=await r.json();
     const v=j.records?.[0];
-    if(!v) return;
+    
+    if(!v) {
+      setStatus("Vehicle Offline / No GPS Data received", true);
+      document.getElementById("ignition").innerText = "OFF";
+      document.getElementById("ignition").style.color = "#ef4444";
+      return;
+    }
 
     clat=parseFloat(v.callat); clng=parseFloat(v.callon);
     const speed=Math.floor((Number(v.speed)||0)/1000);
@@ -267,22 +285,37 @@ async function loadVehicle(){
 
     carMarker.setPosition(carPos);
 
-    const markerImg=document.querySelector('img[src*="843689_497878e241e348adbd167a8cc7462f1b"]');
-    if(markerImg){
-      markerImg.style.transition="transform 0.6s linear";
-      markerImg.style.transform=`rotate(${lastStableHeading}deg)`;
+    // ✅ FIXED DOM ROTATION BUG: Injecting dynamic rotation via custom attribute safely
+    const markerIcon = carMarker.getIcon();
+    if (markerIcon) {
+      const imgSelector = `img[src*="843689_497878e241e348adbd167a8cc7462f1b"]`;
+      const elements = document.querySelectorAll(imgSelector);
+      elements.forEach(img => {
+        img.style.transition = "transform 0.4s linear";
+        img.style.transform = `rotate(${lastStableHeading}deg)`;
+      });
     }
 
     if(followVehicle) map.panTo(carPos);
     document.getElementById("speed").innerText=speed+" km/h";
-    document.getElementById("ignition").innerText=speed>0?"MOVING":"IDLE";
+    
+    const ignEl = document.getElementById("ignition");
+    if(speed > 2) {
+      ignEl.innerText = "MOVING";
+      ignEl.style.color = "#10b981";
+    } else {
+      ignEl.innerText = "IDLE";
+      ignEl.style.color = "#f59e0b";
+    }
 
     geocoder.geocode({ location: carPos }, (res, stat)=>{
-      if(stat==="OK" && res[0]) setStatus(res[0].formatted_address);
+      if(stat==="OK" && res[0]) setStatus(res[0].formatted_address, false);
     });
 
     calculateRouteUserToCar();
-  }catch(e){}
+  }catch(e){
+    setStatus("Connection Error. Reconnecting...", true);
+  }
 }
 
 function calculateRouteUserToCar(){
@@ -303,22 +336,29 @@ function calculateRouteUserToCar(){
 
 function loadSheet(){
   fetch(SHEET_CSV + "&t=" + Date.now()).then(r=>r.text()).then(csv=>{
-    const lines=csv.trim().split("\n");
+    const lines=csv.trim().split(/\r?\n/);
     if(lines.length<2) return;
     const row=lines[1].split(",");
-    DEVICE_ID=row[0].trim();
-    document.getElementById("driverName").innerText=row[1];
-    document.getElementById("driverCar").innerText="Vehicle: "+row[3];
-    document.getElementById("driverMobile").href="tel:"+row[2];
-    document.getElementById("driverPhoto").src=row[4];
+    
+    DEVICE_ID=row[0].replace(/[\r\n]/g, "").trim();
+    document.getElementById("driverName").innerText=row[1].trim();
+    document.getElementById("driverCar").innerText="Vehicle: " + row[3].trim();
+    document.getElementById("driverMobile").href="tel:" + row[2].trim();
+    
+    if(row[4]) {
+      document.getElementById("driverPhoto").src=row[4].replace(/[\r\n]/g, "").trim();
+    }
+    
     loadVehicle();
-    setInterval(loadVehicle, 3000);
+    setInterval(loadVehicle, 4000); // 4 Seconds Interval for balance loading
+  }).catch(e=>{
+    setStatus("Error loading Fleet details", true);
   });
 }
 
 document.getElementById("btnTraffic").onclick=()=>trafficLayer.setMap(trafficLayer.getMap()?null:map);
-document.getElementById("btnVehicle").onclick=()=>{ followVehicle=true; map.panTo({lat:clat,lng:clng}); };
-document.getElementById("btnMe").onclick=()=>{ followVehicle=false; map.panTo({lat:ulat,lng:ulng}); };
+document.getElementById("btnVehicle").onclick=()=>{ followVehicle=true; if(clat) map.panTo({lat:clat,lng:clng}); };
+document.getElementById("btnMe").onclick=()=>{ followVehicle=false; if(ulat) map.panTo({lat:ulat,lng:ulng}); };
 
 async function start(){
   try{ await loadGoogleMaps(); initMap(); } catch(e){}
